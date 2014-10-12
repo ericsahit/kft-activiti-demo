@@ -17,8 +17,11 @@
 
 	<!-- 定义首页 -->
 	<mvc:view-controller path="/" view-name="redirect:/login/" />
-
+<!-- 	配置 InternalResourceViewResolver， 它是 jsp 渲染模板的处理器. 如果你告诉 InternalResourceViewResolver 处理一个名为 hello 的模板时，  -->
+<!-- 	它会渲染 /WEB-INF/jsp/hello.jsp 文件. 把 jsp 文件放到 /WEB-INF/jsp/ 目录下是被鼓励的，  -->
+<!-- 	这样可以防止用户不经过 Controller 直接访问 jsp 文件从而出错(有些顽皮的人很喜欢这样做). -->
 	<!-- 定义JSP -->
+	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />

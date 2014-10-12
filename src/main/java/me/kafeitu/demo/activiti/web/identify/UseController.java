@@ -67,6 +67,8 @@ public class UseController {
     @RequestMapping(value = "/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("user");
+        session.removeAttribute("groups");
+        session.removeAttribute("groupNames");
         return "/login";
     }
 

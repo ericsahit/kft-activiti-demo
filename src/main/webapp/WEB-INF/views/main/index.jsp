@@ -43,10 +43,10 @@ PropertyFileUtil.init();
        	<table id="topTable" style="padding: 0px;margin: 0px;margin-top: -5px" width="100%">
        		<tr>
        			<td width="40px">
-       				<img src="${ctx }/images/logo.png" height="48" align="top"  style="margin-top:5px" />
+       				<img src="${ctx }/images/nologo.png" height="48" align="top"  style="margin-top:5px" />
        			</td>
        			<td>
-       				<span style="font-size: 17px;color:#FFFF33">Activiti<br/>演示系统</span><br/>
+       				<span style="font-size: 17px;color:#FFFF33">胶霸豪威<br/>工作流系统</span><br/>
        			</td>
        			<td>
        				<div style="float:right; color: #fff;font-size: 12px;margin-top: 2px">
@@ -78,8 +78,8 @@ PropertyFileUtil.init();
 <!-- #BottomPane -->
 <div id="bottomPane" class="ui-layout-south ui-widget ui-widget-content">
 	<div class="footer ui-state-default">
-		<a href="http://www.kafeitu.me" target="_blank">咖啡兔</a>
-		<span class="copyright">©2008-2014</span>
+		<a href="http://www.baidu.com" target="_blank">胶霸豪威</a>
+		<span class="copyright">©2014-2014</span>
 		<span class="version">Version：${prop['system.version']}</span>
 	</div>
 </div>

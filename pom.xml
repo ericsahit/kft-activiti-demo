@@ -47,8 +47,9 @@
 		<jdbc.driver.artifactId>h2</jdbc.driver.artifactId>
 		<jdbc.driver.version>1.3.173</jdbc.driver.version>
 
-		<!-- jdbc mysql <jdbc.driver.groupId>mysql</jdbc.driver.groupId> <jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId> 
-			<jdbc.driver.version>5.1.11</jdbc.driver.version> -->
+		<jdbc.driver.groupId>mysql</jdbc.driver.groupId> 
+		<jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId> 
+		<jdbc.driver.version>5.1.11</jdbc.driver.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

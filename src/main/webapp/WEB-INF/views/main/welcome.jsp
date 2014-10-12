@@ -34,30 +34,30 @@
 <body style="margin-top: 1em;">
 	<div class="center">
         <div style="text-align: center;">
-            <h3>欢迎访问Activiti Demo，专为优秀的BPMN2.0规范的轻量级工作流引擎Activiti服务</h3>
+            <h3>欢迎访问工作流系统</h3>
         </div>
         <div id='portlet-container'></div>
     </div>
     <!-- 隐藏 -->
-    <div class="forms template">
+    <div class="workflow template">
         <ul>
             <li>
-                <b>普通表单</b>：每个节点的表单内容都写死在JSP或者HTML中。
+                <b>流程的概念</b>：工作流系统中的基本运行单位，可以是请假和销售流程等。
             </li>
             <li>
-                <b>动态表单</b>：表单内容存放在流程定义文件中（包含在启动事件以及每个用户任务中）。
+                <b>定义和部署</b>：本系统支持根据公司业务来新增流程，新增的流程通过设计工具设计被定义和部署后，方可以使用。
             </li>
             <li>
-                <b>外置表单</b>：每个用户任务对应一个单独的<b>.form</b>文件，和流程定义文件同时部署（打包为zip/bar文件）。
+                <b>流程的启动</b>：流程可以在<b>流程列表</b>中启动。启动一个流程即开始工作流的一个实例，例如客服新接到订单后启动一个订单的工作流。
             </li>
             <li>
-                <b>综合流程</b>：可以查询到所有的流程（普通、动态、外置固定查询某些流程的表单，为了演示所以单独分开）；综合流程的目的
-                在于可以启动用户上传或者设计后部署的流程定义。
+                <b>流程的查看</b>：可以在<b>运行中流程</b>和<b>已完成流程</b>中查看正在运行的流程和已完成的流程实例，运行中的流程可以查看到当前进行中的节点。
             </li>
         </ul>
     </div>
-    <div id="multiInstance" class="template">
-        在填写<strong>会签参与人</strong>字段时使用用户的ID作为值，例如：<code>kafeitu,admin</code>表示两个用户，即两个任务实例被创建。
+    <div class="task template">
+    用户任务指的是流程运行过程中分配到相应角色的任务，当前用户可以在<b>任务列表</b>查看分配到自身角色的任务，通过<b>签收任务</b>来接收任务（因为同一角色的用户可能有多个）。
+    完成任务后需要在<b>任务列表</b>中填写信息置任务完成。完成的任务会在工作流中自动进行下一环节的任务分配或任务结束。
     </div>
     <div class="project-info template">
         <ul>
@@ -80,21 +80,15 @@
 
     <div class="demos template">
         <ul>
+        	<li>定制的订单流程</li>
+        	<li>设计流程</li>
             <li>部署流程</li>
             <li>启动流程</li>
             <li>任务签收</li>
             <li>任务办理</li>
-            <li>驳回请求</li>
             <li>查询运行中流程</li>
             <li>查询历史流程</li>
-            <li>任务监听</li>
-            <li>自定义表单</li>
-            <li>动态表单</li>
-            <li>外置表单</li>
             <li>个人待办任务汇总</li>
-            <li>分页查询(<font color='red'>New</font>)</li>
-            <li>流程定义缓存(<font color='red'>New</font>)</li>
-            <li>集成Activiti Modeler(<font color='red'>New</font>)</li>
         </ul>
     </div>
 

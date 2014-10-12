@@ -7,7 +7,7 @@ $(function() {
 				title: '待办任务',
 				content: {
 					style: {
-						maxHeight: 300
+						minHeight: 300
 					},
 					type: 'ajax',
 					dataType: 'json',
@@ -31,34 +31,26 @@ $(function() {
 					}
 				}
 			}, {
-				title: '表单概念',
+				title: '流程概念',
 				content: {
 					type: 'text',
 					text: function() {
-						return $('.forms').html();
+						return $('.workflow').html();
 					}
 				}
 			}, {
-				title: '会签（多实例）说明',
-				content: {
-					type: 'text',
-					text: function() {
-						return $('#multiInstance').html();
-					}
-				}
-			}, {
-                title: '关于作者',
+                title: '任务概念',
                 content: {
                     type: 'text',
                     text: function() {
-                        return $('.aboutme').html();
+                        return $('.task').html();
                     }
                 }
             }]
 		}, {
 			width: 250,
 			portlets: [{
-				title: '演示内容',
+				title: '系统功能',
 				content: {
 					type: 'text',
 					text: function() {
@@ -69,35 +61,35 @@ $(function() {
 		}, {
 			width: 500,
 			portlets: [{
-				title: '项目说明',
+				title: '订单流程说明',
 				content: {
 					type: 'text',
 					text: function() {
-						return $('.project-info').html();
+						return $('.order-info').html();
 					}
 				}
 			}, {
-				title: '架构说明',
+				title: '角色与用户',
 				content: {
 					type: 'text',
 					text: function() {
-						return $('.arch').html();
+						return $('.user').html();
 					}
 				}
 			}, {
-				title: '资源链接',
+				title: '技术支持',
 				content: {
 					type: 'text',
 					text: function() {
-						return $('.links').html();
+						return $('.support').html();
 					}
 				}
 			}, {
-                title: 'Rest接口',
+                title: 'APP客户端说明',
                 content: {
                     type: 'text',
                     text: function() {
-                        return $('.rest').html();
+                        return $('.andriodapp').html();
                     }
                 }
             }]
