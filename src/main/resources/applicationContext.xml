@@ -104,6 +104,7 @@
                 <value>classpath*:/deployments/*</value>
             </list>
         </property>
+        <property name="deploymentMode" value="single-resource" />
 
         <!-- 自定义表单字段类型 -->
         <property name="customFormTypes">

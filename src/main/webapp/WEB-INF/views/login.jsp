@@ -99,6 +99,18 @@
                         <td>leaderuser</td>
                         <td>部门经理、用户</td>
                     </tr>
+                                      <tr>
+                        <td>kefu01</td>
+                        <td>客服</td>
+                    </tr>
+                                        <tr>
+                        <td>kufang01</td>
+                        <td>库房</td>
+                    </tr>
+                                        <tr>
+                        <td>driver01</td>
+                        <td>司机</td>
+                    </tr>
                 </table>
             </div>
 		</div>
