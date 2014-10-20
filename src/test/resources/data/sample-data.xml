@@ -20,4 +20,23 @@
 	<ACT_ID_MEMBERSHIP USER_ID_="leaderuser" GROUP_ID_="deptLeader" />
 	
 	<ACT_ID_MEMBERSHIP USER_ID_="kafeitu" GROUP_ID_="user" />
+	
+	
+	
+	<ACT_ID_GROUP ID_="kefu" NAME_="客服" />
+	<ACT_ID_GROUP ID_="kufang" NAME_="库房" />
+	<ACT_ID_GROUP ID_="driver" NAME_="司机" />
+
+	<ACT_ID_USER ID_="kefu01" EMAIL_="admin@kafeitu.me" FIRST_="马国华" LAST_="" PWD_="000000" />
+	<ACT_ID_USER ID_="kufang01" EMAIL_="hr@gmail.com" FIRST_="王海华" LAST_="" PWD_="000000" />
+	<ACT_ID_USER ID_="driver01" EMAIL_="leader@gmail.com" FIRST_="张师傅" LAST_="" PWD_="000000" />
+	<ACT_ID_USER ID_="admin01" EMAIL_="admin@gmail.com" FIRST_="全部角色" LAST_="" PWD_="000000" />
+	
+	<ACT_ID_MEMBERSHIP USER_ID_="kefu01" GROUP_ID_="kefu" />
+	<ACT_ID_MEMBERSHIP USER_ID_="kufang01" GROUP_ID_="kufang" />
+	<ACT_ID_MEMBERSHIP USER_ID_="driver01" GROUP_ID_="driver" />
+	<ACT_ID_MEMBERSHIP USER_ID_="admin01" GROUP_ID_="kefu" />
+	<ACT_ID_MEMBERSHIP USER_ID_="admin01" GROUP_ID_="kufang" />
+	<ACT_ID_MEMBERSHIP USER_ID_="admin01" GROUP_ID_="driver" />
+
 </dataset>
