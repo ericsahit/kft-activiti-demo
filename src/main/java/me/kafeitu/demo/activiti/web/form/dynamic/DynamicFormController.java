@@ -393,5 +393,59 @@ public class DynamicFormController {
         mav.addObject("page", page);
         return mav;
     }
+    
+    /**
+     * 首页待办任务签收任务
+     * ****没有检查是否登录超时
+     */
+    @RequestMapping(value = "task/claimTodo/{id}")
+    public String claimTodo(@PathVariable("id") String taskId, HttpSession session,
+                        HttpServletRequest request,
+                        RedirectAttributes redirectAttributes) {
+        String userId = UserUtil.getUserFromSession(session).getId();
+        taskService.claim(taskId, userId);
+        redirectAttributes.addFlashAttribute("message", "任务已签收");
+        return "redirect:/main/welcome";
+    }
+    
+    /**
+     * 办理任务，提交task的并保存form
+     */
+    @RequestMapping(value = "task/completeTodo/{taskId}")
+    @SuppressWarnings("unchecked")
+    public String completeTodoTask(@PathVariable("taskId") String taskId, @RequestParam(value = "processType", required = false) String processType,
+                               RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        Map<String, String> formProperties = new HashMap<String, String>();
+
+        // 从request中读取参数然后转换
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Set<Entry<String, String[]>> entrySet = parameterMap.entrySet();
+        for (Entry<String, String[]> entry : entrySet) {
+            String key = entry.getKey();
+
+            // fp_的意思是form paremeter
+            if (StringUtils.defaultString(key).startsWith("fp_")) {
+                formProperties.put(key.split("_")[1], entry.getValue()[0]);
+            }
+        }
+
+        logger.debug("start form parameters: {}", formProperties);
+
+        User user = UserUtil.getUserFromSession(request.getSession());
+
+        // 用户未登录不能操作，实际应用使用权限框架实现，例如Spring Security、Shiro等
+        if (user == null || StringUtils.isBlank(user.getId())) {
+            return "redirect:/login?timeout=true";
+        }
+        try {
+            identityService.setAuthenticatedUserId(user.getId());
+            formService.submitTaskFormData(taskId, formProperties);
+        } finally {
+            identityService.setAuthenticatedUserId(null);
+        }
+
+        redirectAttributes.addFlashAttribute("message", "任务完成：taskId=" + taskId);
+        return "redirect:/main/welcome";
+    }
 
 }

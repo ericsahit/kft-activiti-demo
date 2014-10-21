@@ -309,6 +309,7 @@ public class ActivitiController {
 
     /**
      * 待办任务--Portlet
+     * 增加tid，taskDefinitionKey，name属性的返回
      */
     @RequestMapping(value = "/task/todo/list")
     @ResponseBody
@@ -350,6 +351,8 @@ public class ActivitiController {
         singleTask.put("pdname", processDefinition.getName());
         singleTask.put("pdversion", processDefinition.getVersion());
         singleTask.put("pid", task.getProcessInstanceId());
+        //add for new button
+        singleTask.put("taskDefinitionKey", task.getTaskDefinitionKey());
         return singleTask;
     }
 

@@ -9,6 +9,7 @@
 
 	<%@ include file="/common/include-base-styles.jsp" %>
     <%@ include file="/common/include-jquery-ui-theme.jsp" %>
+    <link href="${ctx }/js/common/plugins/jui/extends/timepicker/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
     <link href="${ctx }/js/common/plugins/jui/extends/portlet/jquery.portlet.min.css?v=1.1.2" type="text/css" rel="stylesheet" />
     <link href="${ctx }/js/common/plugins/qtip/jquery.qtip.css?v=1.1.2" type="text/css" rel="stylesheet" />
     <%@ include file="/common/include-custom-styles.jsp" %>
@@ -26,12 +27,32 @@
     <script src="${ctx }/js/common/jquery-1.8.3.js" type="text/javascript"></script>
     <script src="${ctx }/js/common/plugins/jui/jquery-ui-${themeVersion }.min.js" type="text/javascript"></script>
     <script src="${ctx }/js/common/plugins/jui/extends/portlet/jquery.portlet.pack.js?v=1.1.2" type="text/javascript"></script>
+    <script src="${ctx }/js/common/plugins/jui/extends/timepicker/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+	<script src="${ctx }/js/common/plugins/jui/extends/i18n/jquery-ui-date_time-picker-zh-CN.js" type="text/javascript"></script>
+	<script src="${ctx }/js/common/plugins/validate/jquery.validate.pack.js" type="text/javascript"></script>
+	<script src="${ctx }/js/common/plugins/validate/messages_cn.js" type="text/javascript"></script>
     <script src="${ctx }/js/common/plugins/qtip/jquery.qtip.pack.js" type="text/javascript"></script>
 	<script src="${ctx }/js/common/plugins/html/jquery.outerhtml.js" type="text/javascript"></script>
+	<script src="${ctx }/js/common/plugins/blockui/jquery.blockUI.js" type="text/javascript"></script>
+	<script src="${ctx }/js/common/common.js" type="text/javascript"></script>
+	    <script type="text/javascript">
+        var processType = '${empty processType ? param.processType : processType}';
+    </script>
 	<script src="${ctx }/js/module/activiti/workflow.js" type="text/javascript"></script>
     <script src="${ctx }/js/module/main/welcome-portlet.js" type="text/javascript"></script>
+    <script src="${ctx }/js/module/main/todo-handler.js" type="text/javascript"></script>
+    
 </head>
 <body style="margin-top: 1em;">
+	<c:if test="${not empty message}">
+		<div id="message" class="alert alert-success">${message}</div>
+		<!-- 自动隐藏提示信息 -->
+		<script type="text/javascript">
+		setTimeout(function() {
+			$('#message').hide('slow');
+		}, 5000);
+		</script>
+	</c:if>
 	<div class="center">
         <div style="text-align: center;">
             <h3>欢迎访问工作流系统</h3>
@@ -146,5 +167,8 @@
             </dd>
         </dl>
     </div>
+    
+    <!-- 办理任务对话框 -->
+	<div id="handleTemplate" class="template"></div>
 </body>
 </html>

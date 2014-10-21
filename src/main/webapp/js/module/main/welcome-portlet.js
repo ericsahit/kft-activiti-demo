@@ -1,3 +1,4 @@
+//待办事项中增加办理签收按钮
 $(function() {
 	$('#portlet-container').portlet({
 		sortable: true,
@@ -21,13 +22,22 @@ $(function() {
 							ct += "<li>" + this.pdname + "->PID:" + this.pid + "-><span class='ui-state-highlight ui-corner-all'>" + this.name + "</span>";
 							ct += "<span class='version' title='流程定义版本：" + this.pdversion + "'><b>V:</b>" + this.pdversion + "</span>";
 							ct += "<a class='trace' href='#' pid='" + this.pid + "' title='点击查看流程图'>跟踪</a>";
-							ct += "<span class='status' title='任务状态'>" + (this.status == 'claim' ? '未签收' : '') + "</span>";
+							ct += "<a class='" 
+								+ (this.status == 'claim' ? 'claim' : 'handle') + "' href='" 
+								+ (this.status == 'claim' ? (ctx + '/form/dynamic/task/claimTodo/' + this.id) : '#') + "'  tid='" 
+								+ this.id + "' tname='" 
+								+ this.name + "' tkey='" 
+								+ this.taskDefinitionKey + "' pid='" 
+								+ this.pid + "'>" 
+								+ (this.status == 'claim' ? '签收' : '办理') + "</a>";
+							//ct += "<span class='status' title='任务状态'>" + (this.status == 'claim' ? '未签收' : '') + "</span>";
 							ct += "</li>";
 						});
 						return ct + "</ol>";
 					},
 					afterShow: function() {
 						$('.trace').click(graphTrace);
+						$('.handle').click(handle);
 					}
 				}
 			}, {
