@@ -7,12 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import me.kafeitu.demo.activiti.util.Page;
 import me.kafeitu.demo.activiti.util.PageUtil;
 import me.kafeitu.demo.activiti.util.UserUtil;
+
+import org.activiti.engine.ActivitiObjectNotFoundException;
+import org.activiti.engine.ActivitiTaskAlreadyClaimedException;
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
@@ -262,8 +266,8 @@ public class DynamicFormController {
      */
     @RequestMapping(value = "task/list")
     public ModelAndView taskList(@RequestParam(value = "processType", required = false) String processType,
-                                 HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("/form/dynamic/dynamic-form-task-list");
+    		HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("/form/dynamic/dynamic-form-task-list", Collections.singletonMap("processType", processType));
         User user = UserUtil.getUserFromSession(request.getSession());
         // 用户未登录不能操作，实际应用使用权限框架实现，例如Spring Security、Shiro等
         if (user == null || StringUtils.isBlank(user.getId())) {
@@ -271,27 +275,43 @@ public class DynamicFormController {
         }
 
         List<Task> tasks = new ArrayList<Task>();
-
-        if (!StringUtils.equals(processType, "all")) {
+        
+        if (!StringUtils.equals(processType, "all") && !StringUtils.isEmpty(processType)) {
             /**
              * 这里为了演示区分开自定义表单的请假流程，值读取leave-dynamic-from
              * 在FormKeyController中有使用native方式查询的例子
              */
-
-            List<Task> dynamicFormTasks = taskService.createTaskQuery().processDefinitionKey("leave-dynamic-from")
+        	tasks = taskService.createTaskQuery().processDefinitionKey(processType)
                     .taskCandidateOrAssigned(user.getId()).active().orderByTaskId().desc().list();
-
-            List<Task> dispatchTasks = taskService.createTaskQuery().processDefinitionKey("dispatch")
-                    .taskCandidateOrAssigned(user.getId()).active().orderByTaskId().desc().list();
-
-            List<Task> leaveJpaTasks = taskService.createTaskQuery().processDefinitionKey("leave-jpa")
-                    .taskCandidateOrAssigned(user.getId()).active().orderByTaskId().desc().list();
-
-            tasks.addAll(dynamicFormTasks);
-            tasks.addAll(dispatchTasks);
-            tasks.addAll(leaveJpaTasks);
         } else {
             tasks = taskService.createTaskQuery().taskCandidateOrAssigned(user.getId()).active().orderByTaskId().desc().list();
+        }
+        
+        int newCount = 0;
+        Object obj = request.getSession().getAttribute("lastTodolist");
+        if (obj != null) {
+        	List<Task> oldTasks = (List<Task>)obj;
+        	for (Task newtask : tasks) {
+        		boolean ifExist = false;
+            	for (Task oldtask : oldTasks) {
+            		if (newtask.getId().equals(oldtask.getId())) {
+            			ifExist = true;
+            			break;
+            		}
+            	}
+            	
+            	if (!ifExist) newCount++;
+            	
+        	}
+        } else {
+        	newCount = tasks.size();
+        }
+        
+        //newCount = 10;//**** for test
+        if (newCount > 0) {
+        	request.getSession().setAttribute("lastTodolist", tasks);
+        	mav.addObject("newCount", newCount);
+        	mav.addObject("message", "您有"+newCount+"条新的任务！");
         }
 
         mav.addObject("tasks", tasks);
@@ -305,9 +325,22 @@ public class DynamicFormController {
     public String claim(@PathVariable("id") String taskId, HttpSession session,
                         HttpServletRequest request,
                         RedirectAttributes redirectAttributes) {
-        String userId = UserUtil.getUserFromSession(session).getId();
-        taskService.claim(taskId, userId);
-        redirectAttributes.addFlashAttribute("message", "任务已签收");
+    	User user = UserUtil.getUserFromSession(request.getSession());
+        // 用户未登录不能操作，实际应用使用权限框架实现，例如Spring Security、Shiro等
+        if (user == null || StringUtils.isBlank(user.getId())) {
+        	return "redirect:/login?timeout=true"; 
+        }
+        String userId = user.getId();
+        String msg = "任务签收成功";
+        try {
+        	taskService.claim(taskId, userId);
+		} catch (ActivitiObjectNotFoundException e) {
+			msg = "任务不存在！";
+		} catch (ActivitiTaskAlreadyClaimedException e) {
+			msg = "任务可能已被其他人签收！";
+		}
+        
+        redirectAttributes.addFlashAttribute("message", msg);
         return "redirect:/form/dynamic/task/list?processType=" + StringUtils.defaultString(request.getParameter("processType"));
     }
 
@@ -323,30 +356,20 @@ public class DynamicFormController {
         ModelAndView mav = new ModelAndView("/form/running-list", Collections.singletonMap("processType", processType));
         Page<ProcessInstance> page = new Page<ProcessInstance>(PageUtil.PAGE_SIZE);
         int[] pageParams = PageUtil.init(page, request);
-
-        if (!StringUtils.equals(processType, "all")) {
-            ProcessInstanceQuery leaveDynamicQuery = runtimeService.createProcessInstanceQuery()
-                    .processDefinitionKey("leave-dynamic-from").orderByProcessInstanceId().desc().active();
-            List<ProcessInstance> list = leaveDynamicQuery.listPage(pageParams[0], pageParams[1]);
-
-            ProcessInstanceQuery dispatchQuery = runtimeService.createProcessInstanceQuery()
-                    .processDefinitionKey("dispatch").active().orderByProcessInstanceId().desc();
-            List<ProcessInstance> list2 = dispatchQuery.listPage(pageParams[0], pageParams[1]);
-            list.addAll(list2);
-
-            ProcessInstanceQuery leaveJpaQuery = runtimeService.createProcessInstanceQuery()
-                    .processDefinitionKey("leave-jpa").active().orderByProcessInstanceId().desc();
-            List<ProcessInstance> list3 = leaveJpaQuery.listPage(pageParams[0], pageParams[1]);
-            list.addAll(list3);
-
-            page.setResult(list);
-            page.setTotalCount(leaveDynamicQuery.count() + dispatchQuery.count());
+        
+        if (!StringUtils.equals(processType, "all") && !StringUtils.isEmpty(processType)) {
+          ProcessInstanceQuery leaveDynamicQuery = runtimeService.createProcessInstanceQuery()
+          .processDefinitionKey(processType).orderByProcessInstanceId().desc().active();
+          List<ProcessInstance> list = leaveDynamicQuery.listPage(pageParams[0], pageParams[1]);
+          page.setResult(list);
+          page.setTotalCount(leaveDynamicQuery.count());
         } else {
             ProcessInstanceQuery dynamicQuery = runtimeService.createProcessInstanceQuery().orderByProcessInstanceId().desc().active();
             List<ProcessInstance> list = dynamicQuery.listPage(pageParams[0], pageParams[1]);
             page.setResult(list);
             page.setTotalCount(dynamicQuery.count());
         }
+
         mav.addObject("page", page);
         return mav;
     }
@@ -363,25 +386,14 @@ public class DynamicFormController {
         ModelAndView mav = new ModelAndView("/form/finished-list", Collections.singletonMap("processType", processType));
         Page<HistoricProcessInstance> page = new Page<HistoricProcessInstance>(PageUtil.PAGE_SIZE);
         int[] pageParams = PageUtil.init(page, request);
-
-        if (!StringUtils.equals(processType, "all")) {
+        
+        if (!StringUtils.equals(processType, "all") && !StringUtils.isEmpty(processType)) {
             HistoricProcessInstanceQuery leaveDynamicQuery = historyService.createHistoricProcessInstanceQuery()
-                    .processDefinitionKey("leave-dynamic-from").finished().orderByProcessInstanceEndTime().desc();
+                    .processDefinitionKey(processType).finished().orderByProcessInstanceEndTime().desc();
             List<HistoricProcessInstance> list = leaveDynamicQuery.listPage(pageParams[0], pageParams[1]);
 
-            HistoricProcessInstanceQuery dispatchQuery = historyService.createHistoricProcessInstanceQuery()
-                    .processDefinitionKey("dispatch").finished().orderByProcessInstanceEndTime().desc();
-            List<HistoricProcessInstance> list2 = dispatchQuery.listPage(pageParams[0], pageParams[1]);
-
-            HistoricProcessInstanceQuery leaveJpaQuery = historyService.createHistoricProcessInstanceQuery()
-                    .processDefinitionKey("leave-jpa").finished().orderByProcessInstanceEndTime().desc();
-            List<HistoricProcessInstance> list3 = leaveJpaQuery.listPage(pageParams[0], pageParams[1]);
-
-            list.addAll(list2);
-            list.addAll(list3);
-
             page.setResult(list);
-            page.setTotalCount(leaveDynamicQuery.count() + dispatchQuery.count());
+            page.setTotalCount(leaveDynamicQuery.count());
         } else {
             HistoricProcessInstanceQuery dynamicQuery = historyService.createHistoricProcessInstanceQuery()
                     .finished().orderByProcessInstanceEndTime().desc();
@@ -402,9 +414,23 @@ public class DynamicFormController {
     public String claimTodo(@PathVariable("id") String taskId, HttpSession session,
                         HttpServletRequest request,
                         RedirectAttributes redirectAttributes) {
-        String userId = UserUtil.getUserFromSession(session).getId();
-        taskService.claim(taskId, userId);
-        redirectAttributes.addFlashAttribute("message", "任务已签收");
+    	
+    	User user = UserUtil.getUserFromSession(request.getSession());
+        // 用户未登录不能操作，实际应用使用权限框架实现，例如Spring Security、Shiro等
+        if (user == null || StringUtils.isBlank(user.getId())) {
+        	return "redirect:/login?timeout=true"; 
+        }
+        String userId = user.getId();
+        String msg = "任务签收成功";
+        try {
+        	taskService.claim(taskId, userId);
+		} catch (ActivitiObjectNotFoundException e) {
+			msg = "任务不存在！";
+		} catch (ActivitiTaskAlreadyClaimedException e) {
+			msg = "任务可能已被其他人签收！";
+		}
+    	
+        redirectAttributes.addFlashAttribute("message", msg);
         return "redirect:/main/welcome";
     }
     
@@ -446,6 +472,19 @@ public class DynamicFormController {
 
         redirectAttributes.addFlashAttribute("message", "任务完成：taskId=" + taskId);
         return "redirect:/main/welcome";
+    }
+    
+    @RequestMapping(value = "process-instance/running/listrest")
+    @ResponseBody
+    public List<ProcessInstance> runninglistRest(@RequestParam(value = "processType", required = false) String processType,
+                                HttpServletRequest request) {
+        Page<ProcessInstance> page = new Page<ProcessInstance>(PageUtil.PAGE_SIZE);
+        int[] pageParams = PageUtil.init(page, request);
+        
+        ProcessInstanceQuery dynamicQuery = runtimeService.createProcessInstanceQuery().orderByProcessInstanceId().desc().active();
+        List<ProcessInstance> list = dynamicQuery.list();
+        
+        return list;
     }
 
 }

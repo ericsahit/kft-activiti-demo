@@ -309,7 +309,7 @@ public class ActivitiController {
 
     /**
      * 待办任务--Portlet
-     * 增加tid，taskDefinitionKey，name属性的返回
+     * 增加tid，taskDefinitionKey，name属性的返回 by eric
      */
     @RequestMapping(value = "/task/todo/list")
     @ResponseBody

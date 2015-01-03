@@ -128,25 +128,16 @@
         </p>
     </div>
 
-    <div class="aboutme template">
+    <div class="support template">
         <ul>
             <li>
-                <b>作者：</b><a target="_blnak" href="http://www.kafeitu.me/?f=kad">咖啡兔</a>
+                <b>技术支持：</b>王海华
             </li>
             <li>
-                <b>QQ：</b>576525789
+                <b>QQ：</b>364446075
             </li>
             <li>
-                <b>Weibo：</b><a target="_blank" href="http://weibo.com/kafeituzi">@kafeituzi</a>
-            </li>
-            <li>
-                <b>QQ群：</b>
-                <ul>
-                    <li>Activiti中文群1(<span style="color:green;font-weight: bold">欢迎</span>)：236540304</li>
-                    <li>Activiti中文群2(<span style="color:red">已满</span>)：23539326</li>
-                    <li>Activiti中文群3(<span style="color:red">已满</span>)：139983080</li>
-                    <li>Activiti中文群4(<span style="color:red">已满</span>)：327913744</li>
-                </ul>
+                <b>手机：</b>18911393216
             </li>
         </ul>
     </div>
@@ -166,6 +157,19 @@
                 <p><a href="http://www.kafeitu.me/activiti/2013/01/12/kft-activiti-demo-rest.html">如何使用Activiti Rest模块</a></p>
             </dd>
         </dl>
+    </div>
+    
+    <div class="andriodapp template">
+    
+    	<table style="padding: 0px;margin: 0px;margin-top: -5px" width="100%">
+    	
+    		<tr>
+    			<td><p><a href="https://localhost:8080/jbworkflow/uploads/jbworkflowApp.apk">安卓APP下载二维码：</a></p></td>
+    		</tr>
+    		<tr>
+    			<td  style="text-align:center;"><img src="${ctx }/update/appdownloadurl.png" align="center" style="margin-top:5px" /></td>
+    		</tr>
+    	</table>
     </div>
     
     <!-- 办理任务对话框 -->

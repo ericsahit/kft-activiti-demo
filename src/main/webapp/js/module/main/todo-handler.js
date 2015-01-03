@@ -19,7 +19,8 @@ function handle() {
 
 	$('#handleTemplate').html('').dialog({
 		modal: true,
-		width: 400,
+		width: 500,
+		height: $.common.window.getClientHeight() / 2,
 		title: '办理任务[' + tname + ']',
 		open: function() {
 			readFormFields.call(this, taskId);
@@ -97,7 +98,15 @@ var formFieldCreator = {
 	'string': function(prop, datas, className) {
 		var result = "<td width='120'>" + prop.name + "：</td>";
 		if (prop.writable === true) {
-			result += "<td><input type='text' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' value='" + prop.value + "' />";
+			
+			if (prop.id == "comment") {//备注字段需要显示成textarea
+				result += "<td><textarea id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "'>" + prop.value + "\r\n\r\n-------"+loginUser+"-------\r\n</textarea>";
+				//result += "<td><input type='textarea' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' value='" + prop.value + "' />";
+			} else {
+				result += "<td><input type='text' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' value='" + prop.value + "' />";
+			}
+			
+			//result += "<td><input type='text' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' value='" + prop.value + "' />";
 		} else {
 			result += "<td>" + prop.value;
 		}

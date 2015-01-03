@@ -16,4 +16,5 @@ pageContext.setAttribute("timeInMillis", System.currentTimeMillis());
 %>
 <script type="text/javascript">
 	var ctx = '<%=request.getContextPath() %>';
+	var loginUser = '<%=session.getAttribute("loginUserID") %>'; 
 </script>

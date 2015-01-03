@@ -21,14 +21,14 @@ function showStartupProcessDialog() {
 		html: '<span class="ui-loading">正在读取表单……</span>'
 	}).dialog({
 		modal: true,
-		width: 400,
+		width: 500,
 		height: $.common.window.getClientHeight() / 2,
 		open: function() {
 			// 获取json格式的表单数据，就是流程定义中的所有field
 			readFormFields.call(this, $ele.parents('tr').find('.process-id').text());
 		},
 		buttons: [{
-			text: '启动流程',
+			text: '启动流程V1.0',
 			click: sendStartupRequest
 		}]
 	});
@@ -90,7 +90,17 @@ function readFormFields(processDefinitionId) {
  */
 var formFieldCreator = {
 	string: function(formData, prop, className) {
-		var result = "<td width='120'>" + prop.name + "：</td><td><input type='text' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' />";
+		
+		var result = "";
+		
+		if (prop.id == "comment") {//备注字段需要显示成textarea
+			result += "<td width='120'>" + prop.name + "：</td><td><textarea id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "'>-------"+loginUser+"-------\r\n</textarea>";
+			//result += "<td width='230'>" + prop.name + "：</td><td><input type='textarea' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' />";
+		} else {
+			result += "<td width='120'>" + prop.name + "：</td><td><input type='text' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' />";
+		}
+		
+		//var result = "<td width='120'>" + prop.name + "：</td><td><input type='text' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' />";
 		return result;
 	},
 	date: function(formData, prop, className) {

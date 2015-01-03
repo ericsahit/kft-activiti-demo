@@ -39,13 +39,15 @@ public class UseController {
      */
     @RequestMapping(value = "/logon")
     public String logon(@RequestParam("username") String userName, @RequestParam("password") String password, HttpSession session) {
-        logger.debug("logon request: {username={}, password={}}", userName, password);
+        logger.debug("logon requestV0.1: {username={}, password={}}", userName, password);
         boolean checkPassword = identityService.checkPassword(userName, password);
         if (checkPassword) {
 
             // read user from database
             User user = identityService.createUserQuery().userId(userName).singleResult();
             UserUtil.saveUserToSession(session, user);
+            session.setAttribute("loginUserID", user.getId());
+            //UserUtil.saveUserToSession(session, user);
 
             List<Group> groupList = identityService.createGroupQuery().groupMember(userName).list();
             session.setAttribute("groups", groupList);
@@ -67,6 +69,7 @@ public class UseController {
     @RequestMapping(value = "/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("user");
+        session.removeAttribute("loginUserID");
         session.removeAttribute("groups");
         session.removeAttribute("groupNames");
         return "/login";

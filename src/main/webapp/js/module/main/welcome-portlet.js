@@ -86,15 +86,7 @@ $(function() {
 						return $('.user').html();
 					}
 				}
-			}, {
-				title: '技术支持',
-				content: {
-					type: 'text',
-					text: function() {
-						return $('.support').html();
-					}
-				}
-			}, {
+			},  {
                 title: 'APP客户端说明',
                 content: {
                     type: 'text',
@@ -102,7 +94,16 @@ $(function() {
                         return $('.andriodapp').html();
                     }
                 }
-            }]
+            }, {
+				title: '技术支持',
+				content: {
+					type: 'text',
+					text: function() {
+						return $('.support').html();
+					}
+				}
+			}
+			]
 		}]
 	});
 });

@@ -13,9 +13,10 @@ PropertyFileUtil.init();
 		if (notLogon) {
 			location.href = '${ctx}/login?timeout=true';
 		}
+		
 	</script>
 	<%@ include file="/common/meta.jsp" %>
-    <title>Activiti-演示系统</title>
+    <title>胶霸豪威工作流系统V3.0</title>
     <%@ include file="/common/include-base-styles.jsp" %>
 	<%@ include file="/common/include-jquery-ui-theme.jsp" %>
     <link rel="stylesheet" type="text/css" href="${ctx }/css/menu.css" />
@@ -43,7 +44,7 @@ PropertyFileUtil.init();
        	<table id="topTable" style="padding: 0px;margin: 0px;margin-top: -5px" width="100%">
        		<tr>
        			<td width="40px">
-       				<img src="${ctx }/images/nologo.png" height="48" align="top"  style="margin-top:5px" />
+       				<img src="${ctx }/images/logojb.jpg" height="48" align="top"  style="margin-top:5px" />
        			</td>
        			<td>
        				<span style="font-size: 17px;color:#FFFF33">胶霸豪威<br/>工作流系统</span><br/>

@@ -2,19 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>me.kafeitu.demo</groupId>
-	<artifactId>kft-activiti-demo</artifactId>
+	<groupId>com.jb.workflow</groupId>
+	<artifactId>jbworkflow</artifactId>
 	<version>1.12</version>
 	<packaging>war</packaging>
-	<name>Activiti demo</name>
-	<description>activiti demo for version 5.16</description>
+	<name>Jiaoba workflow</name>
+	<description>Jiaoba workflow</description>
 
 	<developers>
 		<developer>
-			<id>henryyan</id>
-			<name>Henry Yan</name>
-			<email>yanhonglei@gmail.com</email>
-			<url>http://www.kafeitu.me</url>
+			<id>ericwong</id>
+			<name>Eric Wong</name>
+			<email>win19999@gmail.com</email>
+			<url>http://www.ericwong.me</url>
 			<timezone>8</timezone>
 		</developer>
 	</developers>
@@ -447,6 +447,23 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- TEST end -->
+		
+		<dependency>
+         <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+         <version>4.1.2</version>         
+        </dependency>
+        <dependency>
+         <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient-cache</artifactId>
+         <version>4.1.2</version>         
+        </dependency>
+        <dependency>
+         <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpmime</artifactId>
+         <version>4.1.2</version>         
+        </dependency>
+
 	</dependencies>
 
 	<build>

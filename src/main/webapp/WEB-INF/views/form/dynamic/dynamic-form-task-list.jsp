@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
 <head>
 	<%@ include file="/common/global.jsp"%>
@@ -27,6 +28,7 @@
     </script>
 	<script src="${ctx }/js/module/activiti/workflow.js" type="text/javascript"></script>
 	<script src="${ctx }/js/module/form/dynamic/dynamic-form-handler.js" type="text/javascript"></script>
+	<meta http-equiv="refresh" content="60">
 </head>
 
 <body>
@@ -37,8 +39,16 @@
 		setTimeout(function() {
 			$('#message').hide('slow');
 		}, 5000);
+		//alert("success");
 		</script>
 	</c:if>
+	
+	<c:if test="${not empty newCount}">
+		<script type="text/javascript">
+			alert("您有新的任务！");
+		</script>
+	</c:if>
+	
 	<table>
 		<tr>
 			<th>任务ID</th>
@@ -62,7 +72,7 @@
 			<td>${task.processDefinitionId }</td>
 			<td>${task.processInstanceId }</td>
 			<td>${task.priority }</td>
-			<td>${task.createTime }</td>
+			<td><fmt:formatDate value="${task.createTime}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			<td>${task.dueDate }</td>
 			<td>${task.description }</td>
 			<td>${task.owner }</td>
