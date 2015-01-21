@@ -25,7 +25,8 @@ function handle() {
 	$('#handleTemplate').html('').dialog({
 		modal: true,
 		width: 500,
-		height: $.common.window.getClientHeight() / 2,
+		//height: $.common.window.getClientHeight() / 2,
+		height: 500,
 		title: '办理任务[' + tname + ']',
 		open: function() {
 			readFormFields.call(this, taskId);
@@ -59,13 +60,13 @@ function readFormFields(taskId) {
 	$form.attr('action', ctx + '/oa/order/task/complete/' + taskId);
 
     // 添加隐藏域
-    if ($('#processType').length == 0) {
-        $('<input/>', {
-            'id': 'processType',
-            'name': 'processType',
-            'type': 'hidden'
-        }).val(processType).appendTo($form);
-    }
+//    if ($('#processType').length == 0) {
+//        $('<input/>', {
+//            'id': 'processType',
+//            'name': 'processType',
+//            'type': 'hidden'
+//        }).val(processType).appendTo($form);
+//    }
 
 	// 读取启动时的表单
 	$.getJSON(ctx + '/oa/order/get-form/task/' + taskId, function(datas) {
@@ -105,7 +106,7 @@ var formFieldCreator = {
 		if (prop.writable === true) {
 			
 			if (prop.id == "comment") {//备注字段需要显示成textarea
-				result += "<td><textarea id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "'>" + prop.value + "\r\n\r\n-------"+loginUser+"------\r\n</textarea>";
+				result += "<td><textarea height='300' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "'>" + prop.value + "\r\n\r\n-------"+loginUser+"------\r\n</textarea>";
 				//result += "<td><input type='textarea' height='400' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' value='' />";
 			} else {
 				result += "<td><input type='text' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' value='" + prop.value + "' />";

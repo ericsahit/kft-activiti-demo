@@ -4,14 +4,14 @@
     <wp7>1.4</wp7>
     <ios>1.5.5</ios>
     <android>
-      <versionCode>30</versionCode>
-      <versionName>1.7</versionName>
-      <downloadUrl>https://localhost:8080/jbworkflow/uploads/jbworkflowApp.apk</downloadUrl>
-      <updateLog>是否有新版本</updateLog>
-	  <coverUpdate>false</coverUpdate>
+      <versionCode>32</versionCode>
+      <versionName>1.9</versionName>
+      <downloadUrl>http://jiaoba.duapp.com/update/jbworkflowApp.apk</downloadUrl>
+      <updateLog>增加客服端发起新的订单流程的功能</updateLog>
+	  <coverUpdate>true</coverUpdate>
       <coverStartDate>2014-03-05</coverStartDate>
       <coverEndDate>2014-03-05</coverEndDate>
-      <coverURL></coverURL>
+      <coverURL>orderworkflow:6:102543</coverURL>
     </android>
   </update>
 </oschina>

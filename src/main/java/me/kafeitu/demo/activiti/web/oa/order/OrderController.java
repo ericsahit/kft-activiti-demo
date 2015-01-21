@@ -122,7 +122,7 @@ public class OrderController {
         try {
             identityService.setAuthenticatedUserId(user.getId());
             
-            ProcessDefinitionQuery query1 = repositoryService.createProcessDefinitionQuery().processDefinitionKey("orderworkflow").active().orderByDeploymentId().desc();
+            ProcessDefinitionQuery query1 = repositoryService.createProcessDefinitionQuery().processDefinitionKey("orderworkflow").active().orderByProcessDefinitionVersion().desc();
             List<ProcessDefinition> list = query1.list();
             String processDefinitionId = "";
             if (list.size() > 0) {

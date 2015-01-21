@@ -22,7 +22,7 @@ function showStartupProcessDialog() {
 	}).dialog({
 		modal: true,
 		width: 500,
-		height: $.common.window.getClientHeight() / 2,
+		height: 500,
 		open: function() {
 			// 获取json格式的表单数据，就是流程定义中的所有field
 			readFormFields.call(this, $ele.parents('tr').find('.process-id').text());
@@ -49,13 +49,13 @@ function readFormFields(processDefinitionId) {
 	$form.attr('action', ctx + '/form/dynamic/start-process/' + processDefinitionId);
 
     // 添加隐藏域
-    if ($('#processType').length == 0) {
-        $('<input/>', {
-            'id': 'processType',
-            'name': 'processType',
-            'type': 'hidden'
-        }).val(processType).appendTo($form);
-    }
+//    if ($('#processType').length == 0) {
+//        $('<input/>', {
+//            'id': 'processType',
+//            'name': 'processType',
+//            'type': 'hidden'
+//        }).val(processType).appendTo($form);
+//    }
 
 	// 读取启动时的表单
 	$.getJSON(ctx + '/form/dynamic/get-form/start/' + processDefinitionId, function(data) {
@@ -94,7 +94,7 @@ var formFieldCreator = {
 		var result = "";
 		
 		if (prop.id == "comment") {//备注字段需要显示成textarea
-			result += "<td width='120'>" + prop.name + "：</td><td><textarea id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "'>-------"+loginUser+"-------\r\n</textarea>";
+			result += "<td width='120'>" + prop.name + "：</td><td><textarea height='300' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "'>-------"+loginUser+"-------\r\n</textarea>";
 			//result += "<td width='230'>" + prop.name + "：</td><td><input type='textarea' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' />";
 		} else {
 			result += "<td width='120'>" + prop.name + "：</td><td><input type='text' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' />";

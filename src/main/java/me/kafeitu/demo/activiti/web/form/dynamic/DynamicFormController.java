@@ -104,7 +104,7 @@ public class DynamicFormController {
             page.setTotalCount(query1.count() + query2.count());
         } else {
             // 读取所有流程
-            ProcessDefinitionQuery query = repositoryService.createProcessDefinitionQuery().active().orderByDeploymentId().desc();
+            ProcessDefinitionQuery query = repositoryService.createProcessDefinitionQuery().active().orderByProcessDefinitionVersion().desc();
             List<ProcessDefinition> list = query.list();
             page.setResult(list);
             page.setTotalCount(query.count());

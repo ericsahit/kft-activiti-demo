@@ -72,7 +72,7 @@
 			<td><fmt:formatDate value="${task.createTime}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 <%-- 			<td>${task.dueDate }</td> --%>
 			<td>${task.description }</td>
-			<td>${task.owner }</td>
+			<td title="${hpi.category }">${task.owner }</td>
 			<td>
 				<c:if test="${empty task.assignee }">
 					<a class="claim" href="${ctx }/oa/order/task/claim/${task.id}?processType=${param.processType}">签收</a>

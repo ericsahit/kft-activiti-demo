@@ -549,13 +549,13 @@
             </plugin>
 		</plugins>
 
-        <finalName>kft-activiti-demo</finalName>
+        <finalName>jbworkflow</finalName>
 	</build>
 
 	<profiles>
 		<!-- 开发环境 -->
 		<profile>
-			<id>kft-activiti-demo</id>
+			<id>jbworkflow</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>

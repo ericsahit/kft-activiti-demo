@@ -161,10 +161,11 @@
     
     <div class="andriodapp template">
     
+    
     	<table style="padding: 0px;margin: 0px;margin-top: -5px" width="100%">
     	
     		<tr>
-    			<td><p><a href="https://localhost:8080/jbworkflow/uploads/jbworkflowApp.apk">安卓APP下载二维码：</a></p></td>
+    			<td><p>点击<a href="${ctx }/update/jbworkflowApp.apk">此处</a>安卓APP</p></td>
     		</tr>
     		<tr>
     			<td  style="text-align:center;"><img src="${ctx }/update/appdownloadurl.png" align="center" style="margin-top:5px" /></td>
