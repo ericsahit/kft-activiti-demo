@@ -21,7 +21,43 @@
         });
     });
     //$('#fp_comment').val("-------"+ loginUser + "-------\r\n");
-    //document.getElementById('comment').value = "txt2";
+    //document.getElementById('comment').text = "txt2";
+    // &nbsp; CurentTime3() -------&#13;&#10;
+    //$('#comment').val("dgdgdg");
+    //$('#customer').val("dgdgdg");
+    
+    function CurentTime3()
+	{ 
+	    var now = new Date();
+	   
+	    var year = now.getFullYear();       //年
+	    var month = now.getMonth() + 1;     //月
+	    var day = now.getDate();            //日
+	   
+	    var hh = now.getHours();            //时
+	    var mm = now.getMinutes();          //分
+	   
+	    var clock = year + "-";
+	   
+	    if(month < 10)
+	        clock += "0";
+	   
+	    clock += month + "-";
+	   
+	    if(day < 10)
+	        clock += "0";
+	       
+	    clock += day + " ";
+	   
+	    if(hh < 10)
+	        clock += "0";
+	       
+	    clock += hh + ":";
+	    if (mm < 10) clock += '0'; 
+	    clock += mm; 
+	    return(clock); 
+	}
+    
     </script>
 </head>
 
@@ -60,8 +96,18 @@
 			</tr>		
 			<tr>
 				<td>备&nbsp;&nbsp;注：</td>
-				<td><textarea id="comment" name="fp_comment" class="">-------<%=session.getAttribute("loginUserID") %>-------&#13;&#10;</textarea>
+				
+
+				
+				<td><textarea id="comment" name="fp_comment" class="">4</textarea>
 				<input id="processType" name="processType" type="hidden" value="orderworkflow">
+				
+				
+				<script type="text/javascript">
+					//$('#customer').val("dgdgdg");
+					$('#comment').text("-------" + loginUser + " " + CurentTime3() + "-------\r\n");
+				</script>
+				
 				</td>
 			</tr>
 			<tr>
