@@ -58,6 +58,7 @@
 <!-- 			<th>任务逾期日</th> -->
 			<th>客户</th>
 			<th>订单号</th>
+<!-- 			<th>是否需要发货</th> -->
 			<th>操作</th>
 		</tr>
 
@@ -72,7 +73,8 @@
 			<td><fmt:formatDate value="${task.createTime}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 <%-- 			<td>${task.dueDate }</td> --%>
 			<td>${task.description }</td>
-			<td title="${hpi.category }">${task.owner }</td>
+			<td title="${task.category }">${task.owner }</td>
+<%-- 			<td>${task.category }</td> --%>
 			<td>
 				<c:if test="${empty task.assignee }">
 					<a class="claim" href="${ctx }/oa/order/task/claim/${task.id}?processType=${param.processType}">签收</a>

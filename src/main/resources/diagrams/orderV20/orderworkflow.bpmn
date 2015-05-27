@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="orderworkflow" name="订单工作流" isExecutable="true">
+    <startEvent id="startevent1" name="客服接单" activiti:initiator="applyKefu">
+      <extensionElements>
+        <activiti:formProperty id="orderId" name="订单号" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="customer" name="客户" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="needDriver" name="是否需要发货" type="enum" required="true">
+          <activiti:value id="true" name="需要"></activiti:value>
+          <activiti:value id="false" name="不需要"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="comment" name="备注" type="string"></activiti:formProperty>
+      </extensionElements>
+    </startEvent>
+    <userTask id="kufangRecvOrder" name="库房接单提货" activiti:candidateGroups="kufang">
+      <extensionElements>
+        <activiti:formProperty id="orderId" name="订单号" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="customer" name="客户" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="comment" name="备注" type="string"></activiti:formProperty> 
+      </extensionElements>
+    </userTask>
+    <userTask id="kefuChooseDriver" name="客服安排司机发货" activiti:assignee="${applyKefu}">
+      <extensionElements>
+        <activiti:formProperty id="orderId" name="订单号" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="customer" name="客户" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="comment" name="备注" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow3" sourceRef="kufangRecvOrder" targetRef="exclusivegateway1"></sequenceFlow>
+    <userTask id="driverSendGoods" name="司机发货" activiti:candidateGroups="driver">
+      <extensionElements>
+        <activiti:formProperty id="orderId" name="订单号" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="customer" name="客户" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="comment" name="备注" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow4" sourceRef="kefuChooseDriver" targetRef="driverSendGoods"></sequenceFlow>
+    <userTask id="kefuSendInfo" name="客服回传发货单" activiti:assignee="${applyKefu}">
+      <extensionElements>
+        <activiti:formProperty id="orderId" name="订单号" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="customer" name="客户" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="comment" name="备注" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow5" sourceRef="driverSendGoods" targetRef="kefuSendInfo"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow6" sourceRef="kefuSendInfo" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="startevent1" targetRef="kufangRecvOrder"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow8" sourceRef="exclusivegateway1" targetRef="kefuChooseDriver">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${needDriver == 'true'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow9" name="不需要发货" sourceRef="exclusivegateway1" targetRef="kefuSendInfo">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${needDriver == 'false'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_orderworkflow">
+    <bpmndi:BPMNPlane bpmnElement="orderworkflow" id="BPMNPlane_orderworkflow">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="80.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="kufangRecvOrder" id="BPMNShape_kufangRecvOrder">
+        <omgdc:Bounds height="55.0" width="105.0" x="200.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="kefuChooseDriver" id="BPMNShape_kefuChooseDriver">
+        <omgdc:Bounds height="55.0" width="143.0" x="480.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="driverSendGoods" id="BPMNShape_driverSendGoods">
+        <omgdc:Bounds height="55.0" width="105.0" x="695.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="kefuSendInfo" id="BPMNShape_kefuSendInfo">
+        <omgdc:Bounds height="55.0" width="131.0" x="860.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1030.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="370.0" y="187.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="305.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="370.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="623.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="695.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="800.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="860.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="991.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1030.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="115.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="200.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="410.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="480.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="390.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="389.0" y="291.0"></omgdi:waypoint>
+        <omgdi:waypoint x="925.0" y="291.0"></omgdi:waypoint>
+        <omgdi:waypoint x="925.0" y="235.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="16.0" width="100.0" x="586.0" y="269.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

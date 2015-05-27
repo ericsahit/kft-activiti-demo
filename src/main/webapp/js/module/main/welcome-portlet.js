@@ -1,4 +1,5 @@
 //待办事项中增加办理签收按钮
+//对应后台处理在ActivitiController.java中
 $(function() {
 	$('#portlet-container').portlet({
 		sortable: true,

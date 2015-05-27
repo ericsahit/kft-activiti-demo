@@ -93,7 +93,12 @@
 			<tr>
 				<td>订&nbsp;单&nbsp;号：</td>
 				<td><input type="text" id="orderId" name="fp_orderId" class="required"><span style="color:red">*</span></td>
-			</tr>		
+			</tr>
+			<tr>
+				<td >发&nbsp;&nbsp;货：</td>
+				<td><select id="needDriver" name="fp_needDriver" class="required">
+					<option value="true">需要</option><option value="false">不需要</option></select><span style="color:red">*</span></td>
+			</tr>
 			<tr>
 				<td>备&nbsp;&nbsp;注：</td>
 				

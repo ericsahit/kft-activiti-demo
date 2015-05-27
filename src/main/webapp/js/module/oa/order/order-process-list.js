@@ -94,7 +94,7 @@ var formFieldCreator = {
 		var result = "";
 		
 		if (prop.id == "comment") {//备注字段需要显示成textarea
-			result += "<td width='120'>" + prop.name + "：</td><td><textarea height='300' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "'>-------"+loginUser+"-------\r\n</textarea>";
+			result += "<td width='120'>" + prop.name + "：</td><td><textarea height='300' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "'>-------" + loginUser + " " + CurentTime2() + "-------\r\n</textarea>";
 			//result += "<td width='230'>" + prop.name + "：</td><td><input type='textarea' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' />";
 		} else {
 			result += "<td width='120'>" + prop.name + "：</td><td><input type='text' id='" + prop.id + "' name='fp_" + prop.id + "' class='" + className + "' />";
@@ -129,6 +129,38 @@ var formFieldCreator = {
 		return result;
 	}
 };
+
+function CurentTime4()
+{ 
+    var now = new Date();
+   
+    var year = now.getFullYear();       //年
+    var month = now.getMonth() + 1;     //月
+    var day = now.getDate();            //日
+   
+    var hh = now.getHours();            //时
+    var mm = now.getMinutes();          //分
+   
+    var clock = year + "-";
+   
+    if(month < 10)
+        clock += "0";
+   
+    clock += month + "-";
+   
+    if(day < 10)
+        clock += "0";
+       
+    clock += day + " ";
+   
+    if(hh < 10)
+        clock += "0";
+       
+    clock += hh + ":";
+    if (mm < 10) clock += '0'; 
+    clock += mm; 
+    return(clock); 
+}
 
 /**
  * 生成一个field的html代码

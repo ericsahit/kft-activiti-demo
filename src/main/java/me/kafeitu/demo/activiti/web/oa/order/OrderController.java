@@ -182,7 +182,8 @@ public class OrderController {
         
     	tasks = taskService.createTaskQuery().processDefinitionKey("orderworkflow")
                 .taskCandidateOrAssigned(user.getId()).active().orderByTaskId().desc().list();
-        
+//    	if (tasks.size() > 0) 
+//    		logger.info(tasks.get(0).getClass().toString());
         int newCount = 0;
         Object obj = request.getSession().getAttribute("lastTodolist");
         if (obj != null) {
@@ -499,6 +500,10 @@ public class OrderController {
     			} else if ("comment".equals(prop.getId())) {
     				task.setCategory(prop.getValue());
     				//result.put("customer", prop.getValue());
+    			} else if ("needDriver".equals(prop.getId())) {
+    				//task.setAssignee(assignee);
+    				task.setCategory((prop.getValue() == "false" ? "不需要" : "需要"));
+    				//result.put("customer", prop.getValue());
     			}
     		}
 			
@@ -515,6 +520,7 @@ public class OrderController {
     	String customer = "";
     	String orderId = "";
     	String lastComment = "";
+    	String needDriver = "";
     	int commentCount = 0;
     	
     	try {
@@ -530,6 +536,9 @@ public class OrderController {
         				//inst.setStartActivityId(formDetail.getPropertyValue());//
         			} else if ("orderId".equals(formDetail.getPropertyId())) {
         				result.put("orderId", formDetail.getPropertyValue());
+        				//inst.setEndActivityId(formDetail.getPropertyValue());
+        			}else if ("needDriver".equals(formDetail.getPropertyId())) {
+        				result.put("needDriver", formDetail.getPropertyValue());
         				//inst.setEndActivityId(formDetail.getPropertyValue());
         			} else if ("comment".equals(formDetail.getPropertyId())) {
         				lastComment = formDetail.getPropertyValue();
