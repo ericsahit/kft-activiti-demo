@@ -49,7 +49,7 @@ public class NewsManager {
 	}
 	
 	public Iterable<NewsInfo> getNewsList() {
-		Sort sort = new Sort(Direction.DESC, new String[] {"ID", "CREATE_TIME"});
+		Sort sort = new Sort(Direction.DESC, new String[] {"id", "createTime"});
 		return newsDao.findAll(sort);
 	}
 	
