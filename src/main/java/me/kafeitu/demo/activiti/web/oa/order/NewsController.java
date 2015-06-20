@@ -194,8 +194,8 @@ public class NewsController {
         return mav;
     }
     
-    @RequestMapping(value = "deletenews")
-    public String deleteNews(@PathVariable("newsId") String newsId, 
+    @RequestMapping(value = "delete/{id}")
+    public String deleteNews(@PathVariable("id") String newsId, 
     		RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
         User user = UserUtil.getUserFromSession(request.getSession());
@@ -214,7 +214,6 @@ public class NewsController {
         
         redirectAttributes.addFlashAttribute("message", "新闻删除成功：newsId=" + newsId);
         return "redirect:/oa/news/list";
-        
     }
     
     
