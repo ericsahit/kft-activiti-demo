@@ -190,7 +190,7 @@ public class NewsController {
     public ModelAndView getNewsListPage(HttpServletRequest request) {
     	List<NewsInfo> newsList = new ArrayList<NewsInfo>();
         ModelAndView mav = new ModelAndView("/oa/news/newsList");
-        mav.addObject("newsList", newsList);
+        
         User user = UserUtil.getUserFromSession(request.getSession());
         if (user == null || StringUtils.isBlank(user.getId())) {
         	return new ModelAndView("redirect:/login?timeout=true"); 
@@ -205,12 +205,14 @@ public class NewsController {
         
         if (newsIterable instanceof List) {
         	newsList = (List<NewsInfo>)newsIterable;
+        	
         } else {
         	for (NewsInfo news: newsIterable) {
         		logger.debug("getlistpage： news detail: " + news);
         		newsList.add(news);
         	}
         }
+        mav.addObject("newsList", newsList);
         
         return mav;
     }
