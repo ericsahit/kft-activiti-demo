@@ -39,6 +39,11 @@ public class NewsManager {
 	}
 	
 	@Transactional(readOnly = true)
+	public NewsInfo getNews(long newsId) {
+		return newsDao.findOne(newsId);
+	}
+	
+	@Transactional(readOnly = true)
 	public void deleteNews(Long newsId) {
 		newsDao.delete(newsId);
 	}

@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -63,10 +64,10 @@ public class NewsController {
         return "/oa/news/newsCreate";
     }
     
-    @RequestMapping(value = {"list", ""})
-    public String newsList() {
-        return "/oa/news/newsList";
-    }
+//    @RequestMapping(value = {"list", ""})
+//    public String newsList() {
+//        return "/oa/news/newsList";
+//    }
     
     /**
      * 存储新闻实体
@@ -164,19 +165,20 @@ public class NewsController {
     /**
      * 得到新闻列表页面
      */
-    @RequestMapping(value = "getlistpage")
+    @RequestMapping(value = "list")
     public ModelAndView getNewsListPage(HttpServletRequest request) {
     	List<NewsInfo> newsList = new ArrayList<NewsInfo>();
-        ModelAndView mav = new ModelAndView("/oa/news/list");
+        ModelAndView mav = new ModelAndView("/oa/news/newsList");
         mav.addObject("newsList", newsList);
         User user = UserUtil.getUserFromSession(request.getSession());
         if (user == null || StringUtils.isBlank(user.getId())) {
-        	return mav;
+        	return new ModelAndView("redirect:/login?timeout=true"); 
         }
         
         Iterable<NewsInfo> newsIterable = newsManager.getNewsList();
         
         if (newsIterable == null) {
+        	logger.debug("getlistpage: newsIterable is null, so return empty list.");
         	return mav;
         }
         
@@ -184,6 +186,7 @@ public class NewsController {
         	newsList = (List<NewsInfo>)newsIterable;
         } else {
         	for (NewsInfo news: newsIterable) {
+        		logger.debug("getlistpage： news detail: " + news);
         		newsList.add(news);
         	}
         }
@@ -191,8 +194,99 @@ public class NewsController {
         return mav;
     }
     
-    public ModelAndView deleteNews(HttpServletRequest request) {
+    @RequestMapping(value = "deletenews")
+    public String deleteNews(@PathVariable("newsId") String newsId, 
+    		RedirectAttributes redirectAttributes, HttpServletRequest request) {
+
+        User user = UserUtil.getUserFromSession(request.getSession());
+        if (user == null || StringUtils.isBlank(user.getId())) {
+        	return "redirect:/login?timeout=true";
+        }
+        
+        logger.debug("Request for delete news: {}", newsId);
+        try {
+        	newsManager.deleteNews(Long.parseLong(newsId));
+		} catch (Exception e) {
+			logger.error("删除新闻失败：", e);
+	        redirectAttributes.addFlashAttribute("error", "新闻删除失败：newsId=" + newsId);
+	        return "redirect:/oa/news/list";
+		}
+        
+        redirectAttributes.addFlashAttribute("message", "新闻删除成功：newsId=" + newsId);
+        return "redirect:/oa/news/list";
+        
+    }
+    
+    
+    /**
+     * 更新新闻实体
+     */
+    @RequestMapping(value = "updatenews", method = RequestMethod.POST)
+    public String updateNews(
+    	RedirectAttributes redirectAttributes,
+        HttpServletRequest request) 
+    {
     	
+        User user = UserUtil.getUserFromSession(request.getSession());
+        if (user == null || StringUtils.isBlank(user.getId())) {
+        	return "redirect:/login?timeout=true"; 
+        }
+    	
+        long newsId = -1;
+        String title = null;
+    	String content = null;
+    	String type = null;
+    	
+        // 从request中读取参数然后转换
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Set<Entry<String, String[]>> entrySet = parameterMap.entrySet();
+        for (Entry<String, String[]> entry : entrySet) {
+            String key = entry.getKey();
+            
+            if ("content".equals(key)) {
+            	content = entry.getValue()[0];
+            } else if ("newsId".equals(key)) {
+            	newsId = Long.parseLong(entry.getValue()[0]);
+            } else if ("title".equals(key)) {
+            	title = entry.getValue()[0];
+            }
+
+        }
+        
+        logger.debug("Update news " + String.valueOf(newsId) + " parameter, title: " + title + "content: " + content);
+
+        boolean hasError = false;
+        String msg = "";
+        
+        try {
+        	
+        	NewsInfo news = newsManager.getNews(newsId);
+        	news.setAuthor(user.getFirstName() + user.getLastName());
+        	if (title != null) {
+        		news.setTitle(title);
+        	}
+        	if (content != null) {
+        		news.setContent(content);
+        	}
+        	if (type != null) {
+        		news.setType(type);
+        	}
+        	
+			newsManager.saveNews(news);
+			msg = "新闻更新成功!";
+		} catch (Exception e) {
+			hasError = true;
+			logger.error("新闻更新失败: ", e);
+		}
+        
+        if (hasError) {
+        	redirectAttributes.addFlashAttribute("error", msg);
+        } else {
+        	redirectAttributes.addFlashAttribute("message", msg);
+        }
+        
+        
+    	return "redirect:/oa/news/list";
     }
     
 
