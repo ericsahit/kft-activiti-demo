@@ -1,11 +1,15 @@
 package me.kafeitu.demo.activiti.service.oa.order;
 
 import java.util.Date;
+import java.util.List;
 
 import me.kafeitu.demo.activiti.dao.NewsDao;
+import me.kafeitu.demo.activiti.dao.NewsListByOrderDao;
 import me.kafeitu.demo.activiti.entity.oa.order.NewsInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class NewsManager {
 	
-	private NewsDao newsDao;
+	private NewsListByOrderDao newsDao;
 	
 	@Autowired
-	public void setNewsDao(NewsDao newsDao) {
+	public void setNewsDao(NewsListByOrderDao newsDao) {
 		this.newsDao = newsDao;
 	}
 	
@@ -37,6 +41,11 @@ public class NewsManager {
 	@Transactional(readOnly = true)
 	public void deleteNews(Long newsId) {
 		newsDao.delete(newsId);
+	}
+	
+	public Iterable<NewsInfo> getNewsList() {
+		Sort sort = new Sort(Direction.DESC, new String[] {"ID", "CREATE_TIME"});
+		return newsDao.findAll(sort);
 	}
 	
 	

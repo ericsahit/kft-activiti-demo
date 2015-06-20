@@ -129,7 +129,7 @@ public class NewsController {
         }
         
         
-    	return "redirect:/oa/news/newsCreate";
+    	return "redirect:/oa/news/list";
     }
     
     /**
@@ -137,20 +137,63 @@ public class NewsController {
      */
     @RequestMapping(value = "getlist")
     public List<NewsInfo> getNewsList(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("/oa/news/newsList");
+        //ModelAndView mav = new ModelAndView("/oa/news/list");
         List<NewsInfo> newsList = new ArrayList<NewsInfo>();
         User user = UserUtil.getUserFromSession(request.getSession());
         if (user == null || StringUtils.isBlank(user.getId())) {
         	return newsList;
         }
         
+        Iterable<NewsInfo> newsIterable = newsManager.getNewsList();
         
+        if (newsIterable == null) {
+        	return newsList;
+        }
+        
+        if (newsIterable instanceof List) {
+        	newsList = (List<NewsInfo>)newsIterable;
+        } else {
+        	for (NewsInfo news: newsIterable) {
+        		newsList.add(news);
+        	}
+        }
         
         return newsList;
-        
     }
     
+    /**
+     * 得到新闻列表页面
+     */
+    @RequestMapping(value = "getlistpage")
+    public ModelAndView getNewsListPage(HttpServletRequest request) {
+    	List<NewsInfo> newsList = new ArrayList<NewsInfo>();
+        ModelAndView mav = new ModelAndView("/oa/news/list");
+        mav.addObject("newsList", newsList);
+        User user = UserUtil.getUserFromSession(request.getSession());
+        if (user == null || StringUtils.isBlank(user.getId())) {
+        	return mav;
+        }
+        
+        Iterable<NewsInfo> newsIterable = newsManager.getNewsList();
+        
+        if (newsIterable == null) {
+        	return mav;
+        }
+        
+        if (newsIterable instanceof List) {
+        	newsList = (List<NewsInfo>)newsIterable;
+        } else {
+        	for (NewsInfo news: newsIterable) {
+        		newsList.add(news);
+        	}
+        }
+        
+        return mav;
+    }
     
+    public ModelAndView deleteNews(HttpServletRequest request) {
+    	
+    }
     
 
 }
