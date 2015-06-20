@@ -133,6 +133,27 @@ public class NewsController {
     	return "redirect:/oa/news/list";
     }
     
+    @RequestMapping(value = "detail/{id}")
+    public String getNewsDetail(@PathVariable("id") String newsId, 
+    		HttpServletRequest request) {
+        User user = UserUtil.getUserFromSession(request.getSession());
+        if (user == null || StringUtils.isBlank(user.getId())) {
+        	return "请重新登录！";
+        }
+        
+        logger.debug("Request for get news detail: {}", newsId);
+        String content = "";
+        try {
+        	NewsInfo news = newsManager.getNews(Long.parseLong(newsId));
+        	content = news.getContent();
+		} catch (Exception e) {
+			logger.error("获取新闻细节失败：", e);
+	        return "获取新闻细节失败";
+		}
+        
+        return content;
+    }
+    
     /**
      * 得到新闻列表 
      */
