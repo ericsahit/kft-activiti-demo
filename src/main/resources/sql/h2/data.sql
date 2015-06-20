@@ -18,6 +18,11 @@ insert into ACT_ID_MEMBERSHIP values ('kufang01', 'kufang');
 insert into ACT_ID_USER values ('driver01', 1, '张师傅', '', 'driver01@jb.com', '000000', '');
 insert into ACT_ID_MEMBERSHIP values ('driver01', 'driver');
 
+insert into ACT_ID_USER values ('admin01', 1, '管理员', '', 'admin01@jb.com', '000000', '');
+insert into ACT_ID_MEMBERSHIP values ('admin01', 'kefu');
+insert into ACT_ID_MEMBERSHIP values ('admin01', 'kufang');
+insert into ACT_ID_MEMBERSHIP values ('admin01', 'driver');
+
 
 insert into ACT_ID_USER values ('admin', 1, 'Admin', 'Kad', 'admin@kad.com', '000000', '');
 insert into ACT_ID_MEMBERSHIP values ('admin', 'user');
