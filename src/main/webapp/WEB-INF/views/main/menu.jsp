@@ -60,4 +60,11 @@
 			<li><a rel='workflow/model/list'>模型工作区</a></li>
 		</ul>
 	</li>
+	<li>
+		<a rel='#'>新闻管理</a>
+		<ul>
+			<li><a rel='oa/news/create'>创建</a></li>
+			<li><a rel='oa/news/list'>列表</a></li>
+		</ul>
+	</li>
 </ul>
