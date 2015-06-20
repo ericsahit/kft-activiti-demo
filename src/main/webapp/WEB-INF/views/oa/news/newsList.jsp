@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
 	<%@ include file="/common/global.jsp"%>
-	<title>待办任务列表</title>
+	<title>新闻列表</title>
 	<%@ include file="/common/meta.jsp" %>
     <%@ include file="/common/include-base-styles.jsp" %>
     <%@ include file="/common/include-jquery-ui-theme.jsp" %>
@@ -26,70 +26,64 @@
 	<script src="${ctx }/js/module/activiti/workflow.js" type="text/javascript"></script>
 	<script src="${ctx }/js/module/oa/order/order-form-handler.js" type="text/javascript"></script>
 	<meta http-equiv="refresh" content="60">
+	
+    <script type="text/javascript">	
+	$(document).ready(function() {
+	    $('#tbfinishlist').dataTable( {
+	    	//"bJQueryUI" : true,
+            "oLanguage": { //国际化配置  
+                "sProcessing" : "正在获取数据，请稍后...",    
+                "sLengthMenu" : "显示 _MENU_ 条",    
+                "sZeroRecords" : "没有您要搜索的内容",    
+                "sInfo" : "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",    
+                "sInfoEmpty" : "记录数为0",    
+                "sInfoFiltered" : "(全部记录数 _MAX_ 条)",    
+                "sInfoPostFix" : "",    
+                "sSearch" : "搜索",    
+                "sUrl" : "",    
+                "oPaginate": {    
+                    "sFirst" : "第一页",    
+                    "sPrevious" : "上一页",    
+                    "sNext" : "下一页",    
+                    "sLast" : "最后一页"    
+                }
+            }
+	    } );
+	} );	
+	</script>
 </head>
 
 <body>
-	<c:if test="${not empty message}">
-		<div id="message" class="alert alert-success">${message}</div>
-		<!-- 自动隐藏提示信息 -->
-		<script type="text/javascript">
-		setTimeout(function() {
-			$('#message').hide('slow');
-		}, 5000);
-		//alert("success");
-		</script>
-	</c:if>
-	
-	<c:if test="${not empty newCount}">
-		<script type="text/javascript">
-			alert("您有新的任务！");
-		</script>
-	</c:if>
-	
-	<table>
+	<div style="height: 10px"></div>
+	<table id="tbfinishlist" cellspacing="0">
+	<thead>
 		<tr>
-			<th>任务ID</th>
-<!-- 			<th>任务Key</th> -->
-			<th>任务名称</th>
-<!-- 			<th>流程定义ID</th> -->
-			<th>流程实例ID</th>
-			<th>优先级</th>
-			<th>任务创建日期</th>
-<!-- 			<th>任务逾期日</th> -->
-			<th>客户</th>
-			<th>订单号</th>
-<!-- 			<th>是否需要发货</th> -->
-			<th>操作</th>
+			<th>新闻标题</th>
+			<th>作者</th>
+			<th>类型</th>
+			<th>创建时间</th>
+			<th>查看</th>
+			<th>删除</th>
+			
 		</tr>
+	</thead>
+	<tbody>
+		<c:forEach items="${newsList}" var="news">
+		 <tr>
+		    <td><a target="_blank" href="">${news.title}</a></td>
+			<td>${news.author}</td>
+			<td>${news.type }</td>
+			<td>${news.createTime }</td>
+		    <td> <a href="${ctx}/oa/news/delete/${news.id}">删除</a></td>
+			<%-- <td><fmt:formatDate value="${hpi.endTime }" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
 
-		<c:forEach items="${tasks }" var="task">
-		<tr>
-			<td>${task.id }</td>
-<%-- 			<td>${task.taskDefinitionKey }</td> --%>
-			<td>${task.name }</td>
-<%-- 			<td>${task.processDefinitionId }</td> --%>
-			<td>${task.processInstanceId }</td>
-			<td>${task.priority }</td>
-			<td><fmt:formatDate value="${task.createTime}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-<%-- 			<td>${task.dueDate }</td> --%>
-			<td>${task.description }</td>
-			<td title="${task.category }">${task.owner }</td>
-<%-- 			<td>${task.category }</td> --%>
-			<td>
-				<c:if test="${empty task.assignee }">
-					<a class="claim" href="${ctx }/oa/order/task/claim/${task.id}?processType=${param.processType}">签收</a>
-				</c:if>
-				<c:if test="${not empty task.assignee }">
-					<%-- 此处用tkey记录当前节点的名称 --%>
-					<a class="handle" tkey='${task.taskDefinitionKey }' tname='${task.name }' tid='${task.id }' href="#">办理</a>
-				</c:if>
-			</td>
 		</tr>
 		</c:forEach>
+	<tbody>
 	</table>
-
+<%-- 	<tags:pagination page="${page}" paginationSize="${page.pageSize}"/> --%>
 	<!-- 办理任务对话框 -->
 	<div id="handleTemplate" class="template"></div>
-
+	
 </body>
 </html>
