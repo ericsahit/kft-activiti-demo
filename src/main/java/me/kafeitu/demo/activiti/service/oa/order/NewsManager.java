@@ -48,6 +48,11 @@ public class NewsManager {
 		newsDao.delete(newsId);
 	}
 	
+	@Transactional(readOnly = false)
+	public void deleteNewsByEntity(NewsInfo news) {
+		newsDao.delete(news);
+	}
+	
 	public Iterable<NewsInfo> getNewsList() {
 		Sort sort = new Sort(Direction.DESC, new String[] {"id", "createTime"});
 		return newsDao.findAll(sort);

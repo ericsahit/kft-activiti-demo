@@ -142,15 +142,20 @@ public class NewsController {
         }
         
         logger.debug("Request for get news detail: {}", newsId);
+        
         String content = "";
         try {
         	NewsInfo news = newsManager.getNews(Long.parseLong(newsId));
-        	content = news.getContent();
+        	
+        	if (news != null)
+        		content = news.getContent();
+        	else
+        		content = "查询不存在";
 		} catch (Exception e) {
 			logger.error("获取新闻细节失败：", e);
 	        return "获取新闻细节失败";
 		}
-        
+        logger.debug("Get news detail: {}", content);
         return content;
     }
     
@@ -226,16 +231,29 @@ public class NewsController {
         	return "redirect:/login?timeout=true";
         }
         
+        String msg = "";
+        
         logger.debug("Request for delete news: {}", newsId);
         try {
-        	newsManager.deleteNews(Long.parseLong(newsId));
+        	NewsInfo news = newsManager.getNews(Long.parseLong(newsId));
+        	if (news != null)
+        		newsManager.deleteNewsByEntity(news);
+        	else {
+        		msg = "删除新闻失败，新闻查找不存在:newsId=" + newsId;
+        		logger.error(msg);
+        	}
+        	//newsManager.deleteNews(Long.parseLong(newsId));
 		} catch (Exception e) {
-			logger.error("删除新闻失败：", e);
-	        redirectAttributes.addFlashAttribute("error", "新闻删除失败：newsId=" + newsId);
-	        return "redirect:/oa/news/list";
+			msg = "新闻删除失败，删除异常：newsId=" + newsId;
+			logger.error(msg, e);
 		}
         
-        redirectAttributes.addFlashAttribute("message", "新闻删除成功：newsId=" + newsId);
+        if (msg.isEmpty()) {
+        	redirectAttributes.addFlashAttribute("message", "新闻删除成功：newsId=" + newsId);
+        } else {
+        	redirectAttributes.addFlashAttribute("error", msg);
+        }
+        
         return "redirect:/oa/news/list";
     }
     
