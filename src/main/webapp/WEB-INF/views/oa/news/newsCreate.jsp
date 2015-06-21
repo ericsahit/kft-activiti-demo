@@ -125,15 +125,20 @@
                 <script type="text/javascript" src="${ctx }/ueditor/ueditor.all.js"></script>
                  <!-- 实例化编辑器 -->
                  <script type="text/javascript">
-                 var ue = UE.getEditor('container',{initialFrameHeight:350,initialFrameWidth:1000 });
+                 var ue = UE.getEditor('container',{initialFrameHeight:360,initialFrameWidth:1000 });
                  //ue.initialFrameHeight=500;
                 </script>
 			</tr>
 			<tr>
-				<td>
-					<button type="button" id="create">提交订单</button>
-				</td>
-			</tr>
+			    <td>
+			   </td>
+	 		</tr>
+	 	
+			<tr>
+			    <td>
+					<button type="button" id="create">提交新闻</button>
+	            </td>
+	 		</tr>
 			
 		</table>
 		</fieldset>
