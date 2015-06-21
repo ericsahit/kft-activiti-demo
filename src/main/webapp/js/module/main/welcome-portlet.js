@@ -1,5 +1,37 @@
 //待办事项中增加办理签收按钮
 //对应后台处理在ActivitiController.java中
+
+function formatDate(date, format) {   
+    if (!date) return;   
+    if (!format) format = "yyyy-MM-dd";   
+    switch(typeof date) {   
+        case "string":   
+            date = new Date(date.replace(/-/, "/"));   
+            break;   
+        case "number":   
+            date = new Date(date);   
+            break;   
+    }    
+    if (!date instanceof Date) return;   
+    var dict = {   
+        "yyyy": date.getFullYear(),   
+        "M": date.getMonth() + 1,   
+        "d": date.getDate(),   
+        "H": date.getHours(),   
+        "m": date.getMinutes(),   
+        "s": date.getSeconds(),   
+        "MM": ("" + (date.getMonth() + 101)).substr(1),   
+        "dd": ("" + (date.getDate() + 100)).substr(1),   
+        "HH": ("" + (date.getHours() + 100)).substr(1),   
+        "mm": ("" + (date.getMinutes() + 100)).substr(1),   
+        "ss": ("" + (date.getSeconds() + 100)).substr(1)   
+    };       
+    return format.replace(/(yyyy|MM?|dd?|HH?|ss?|mm?)/g, function() {   
+        return dict[arguments[0]];   
+    });                   
+}   
+
+
 $(function() {
 	$('#portlet-container').portlet({
 		sortable: true,
@@ -72,11 +104,32 @@ $(function() {
 		}, {
 			width: 500,
 			portlets: [{
-				title: '订单流程说明',
+				title: '消息通知',
 				content: {
-					type: 'text',
-					text: function() {
-						return $('.order-info').html();
+					style: {
+						minHeight: 300
+					},
+					type: 'ajax',
+					dataType: 'json',
+					url: ctx + '/oa/news/getlist',
+					formatter: function(o, pio, data) {
+                        if (data.length == 0) {
+                            return "暂无消息！";
+                        }
+						var ct = "<ol>";
+						$.each(data, function() {
+							ct += "<li>";
+							ct += "<a class='newsdetail' href='#' newsid='" + this.id + "' title='点击查看消息详情'>" + this.title + "</a>";
+							ct += "<span class='version' title='作者'>" + this.author + "</span>";
+							ct += "<span class='createtime' title='创建时间'>" + formatDate(this.createTime, "yyyy-MM-dd") + "</span>";
+							//ct += "<span class='status' title='任务状态'>" + (this.status == 'claim' ? '未签收' : '') + "</span>";
+							ct += "</li>";
+						});
+						return ct + "</ol>";
+					},
+					afterShow: function() {
+						//$('.trace').click(graphTrace);
+						$('.newsdetail').click(newsdetail);
 					}
 				}
 			}, {
@@ -108,3 +161,6 @@ $(function() {
 		}]
 	});
 });
+
+
+
