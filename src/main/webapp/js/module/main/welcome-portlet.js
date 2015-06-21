@@ -1,6 +1,46 @@
 //待办事项中增加办理签收按钮
 //对应后台处理在ActivitiController.java中
 
+
+/**
+ * 打开消息详情对话框
+ */
+function newsdetail() {
+	var $ele = $(this);
+
+	// 当前节点的英文名称
+	var id = $(this).attr('nid');
+	var title = $(this).attr('title');
+	
+   // alert(id);
+	$('#newsDetailTemplate').html('').dialog({
+		modal: true,
+		//width: 500,
+	    width: document.documentElement.clientWidth * 0.8,
+        height: document.documentElement.clientHeight * 0.9,
+	//	height: $.common.window.getClientHeight() / 2,
+		//height: 700,
+		title: '[' + title + ']',
+		open: function() {
+			readFormFields.call(this, id);
+		},
+	});
+}
+
+
+/**
+ * 读取消息详细内容
+ */
+function readFormFields(id) {
+	var dialog = this;
+
+   var url=ctx + '/oa/news/detail/' + id;
+   $.get(url, function(datas) {
+	   $(dialog).html(datas);
+		
+	});
+}
+
 function formatDate(date, format) {   
     if (!date) return;   
     if (!format) format = "yyyy-MM-dd";   
@@ -119,16 +159,15 @@ $(function() {
 						var ct = "<ol>";
 						$.each(data, function() {
 							ct += "<li>";
-							ct += "<a class='newsdetail' href='#' newsid='" + this.id + "' title='点击查看消息详情'>" + this.title + "</a>";
-							ct += "<span class='version' title='作者'>" + this.author + "</span>";
-							ct += "<span class='createtime' title='创建时间'>" + formatDate(this.createTime, "yyyy-MM-dd") + "</span>";
+							ct += "<span style='padding-left:5px' class='createtime' title='创建时间'>" + formatDate(this.createTime, "yyyy-MM-dd") + "</span>";
+							ct += "<span style='padding-left:5px' class='version' title='作者'>" + this.author + "</span>";
+							ct += "<a class='newsdetail' href='#' nid='" + this.id + "' title='" + this.title + "'>" + this.title + "</a>";
 							//ct += "<span class='status' title='任务状态'>" + (this.status == 'claim' ? '未签收' : '') + "</span>";
 							ct += "</li>";
 						});
 						return ct + "</ol>";
 					},
 					afterShow: function() {
-						//$('.trace').click(graphTrace);
 						$('.newsdetail').click(newsdetail);
 					}
 				}

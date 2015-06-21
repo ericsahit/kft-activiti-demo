@@ -175,5 +175,8 @@
     
     <!-- 办理任务对话框 -->
 	<div id="handleTemplate" class="template"></div>
+	
+	<!-- 新闻详情的对话框 -->
+	<div id="newsDetailTemplate" class="template"></div>
 </body>
 </html>
