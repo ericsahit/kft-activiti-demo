@@ -117,7 +117,7 @@
 			<tr> 
 			 
 				<td >标&nbsp;&nbsp;题：<input type="text" id="title" name="title" maxlength="50" style="width:300px;height:25px;" class="required"  onkeyup="javascript:setShowLength(this, 50, 'wordnum');" value='${newsInfo.title}'  } ><span id="wordnum" style="color:red">&nbsp;&nbsp;&nbsp;</span></td>				 
-			    <input type="hidden" name="field＿name" id="newsid" value='${newsInfo.id}'>
+			    <input type="hidden" name="newsid" id="newsid" value='${newsInfo.id}'>
 			</tr>
 			<tr>
 				 <script id="container" name="content" type="text/plain">${newsInfo.content}</script>
