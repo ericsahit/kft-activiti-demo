@@ -25,6 +25,8 @@
 	<script src="${ctx }/js/common/common.js" type="text/javascript"></script>
 	<script src="${ctx }/js/module/activiti/workflow.js" type="text/javascript"></script>
 	<script src="${ctx }/js/module/oa/news/news-detail-handler.js" type="text/javascript"></script>
+	  <link href="${ctx }/js/common/plugins/datatables/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="${ctx }/js/common/plugins/datatables/js/jquery.dataTables.min.js"></script>
 	<%-- <meta http-equiv="refresh" content="60"> --%>
 	
     <script type="text/javascript">	
@@ -51,6 +53,17 @@
 	    } );
 	} );	
 	</script>
+	 
+<script type="text/javascript" > 
+function p_del() { 
+var msg = "您真的确定要删除吗？\n\n请确认！"; 
+if (confirm(msg)==true){ 
+return true; 
+}else{ 
+return false; 
+} 
+} 
+</script> 
 </head>
 
 <body>
@@ -75,7 +88,7 @@
 			<td>${news.type }</td>
 			<td>${news.id }</td>
 			<td>${news.createTime }</td>
-		    <td> <a href="${ctx}/oa/news/delete/${news.id}">删除</a></td>
+		    <td> <a href="${ctx}/oa/news/delete/${news.id}"  onclick="javascript:return p_del()">删除</a></td>
 			<%-- <td><fmt:formatDate value="${hpi.endTime }" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
 
 		</tr>

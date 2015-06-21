@@ -100,13 +100,22 @@
 				$('#inputForm').submit();
     	});
     });
+    function setShowLength(obj, maxlength, id) 
+    { 
+        var rem = maxlength - obj.value.length; 
+        var wid = id; 
+        if (rem < 0){ 
+         rem = 0; 
+        } 
+        document.getElementById(wid).innerHTML = "还可以输入" + rem + "字数"; 
+    } 
     </script>
 	<form:form id="inputForm" action="${ctx}/oa/news/savenews" method="post" class="form-horizontal">
 		<fieldset>
 			<legend><small>创建新闻</small></legend>
 			<table border="1" >
 			<tr>
-				<td >标&nbsp;&nbsp;题：<input type="text" id="title" name="title" style="width:300px;height:25px;" class="required"><span style="color:red">*</span></td>				 
+				<td >标&nbsp;&nbsp;题：<input type="text" id="title" name="title" maxlength="50" style="width:300px;height:25px;" class="required"  onkeyup="javascript:setShowLength(this, 50, 'wordnum');" ><span id="wordnum" style="color:red">还可以输入50字数</span></td>				 
 			</tr>
 			<tr>
 				 <script id="container" name="content" type="text/plain"></script>
