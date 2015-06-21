@@ -334,10 +334,19 @@ public class NewsController {
 
         }
         
-        logger.debug("Update news " + String.valueOf(newsId) + " parameter, title: " + title + "content: " + content);
 
+        
+        logger.debug("Update news " + String.valueOf(newsId) + " parameter, title: " + title + "content: " + content);
+        
         boolean hasError = false;
         String msg = "";
+        
+        if (newsId == -1) {
+        	msg = "新闻更新失败，非法的消息id： " + newsId;
+        	logger.error(msg);
+        	redirectAttributes.addFlashAttribute("error", msg);
+        	return "redirect:/oa/news/list";
+        }
         
         try {
         	
