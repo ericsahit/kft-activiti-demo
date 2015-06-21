@@ -164,6 +164,7 @@ public class NewsController {
      * 得到新闻列表 
      */
     @RequestMapping(value = "getlist")
+    @ResponseBody
     public List<NewsInfo> getNewsList(HttpServletRequest request) {
         //ModelAndView mav = new ModelAndView("/oa/news/list");
         List<NewsInfo> newsList = new ArrayList<NewsInfo>();
