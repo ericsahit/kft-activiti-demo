@@ -129,8 +129,7 @@ public class NewsController {
         	redirectAttributes.addFlashAttribute("message", msg);
         }
         
-        
-    	return "redirect:/oa/news/list";
+        return "redirect:/oa/news/list";
     }
     
     @RequestMapping(value = "detail/{id}")
