@@ -22,7 +22,7 @@ function newsdetail() {
 		//height: 700,
 		title: '[' + title + ']',
 		open: function() {
-			readFormFields.call(this, id);
+			readFormFields2.call(this, id);
 		},
 	});
 }
@@ -31,7 +31,7 @@ function newsdetail() {
 /**
  * 读取消息详细内容
  */
-function readFormFields(id) {
+function readFormFields2(id) {
 	var dialog = this;
 
    var url=ctx + '/oa/news/detail/' + id;
