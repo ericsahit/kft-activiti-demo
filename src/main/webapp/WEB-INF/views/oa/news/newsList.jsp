@@ -77,6 +77,7 @@ return false;
 			<th>新闻ID</th>
 			<th>创建时间</th>
 			<th>删除</th>
+			<th>编辑</th>
 			
 		</tr>
 	</thead>
@@ -90,7 +91,7 @@ return false;
 			<td>${news.createTime }</td>
 		    <td> <a href="${ctx}/oa/news/delete/${news.id}"  onclick="javascript:return p_del()">删除</a></td>
 			<%-- <td><fmt:formatDate value="${hpi.endTime }" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
-
+            <td> <a href="${ctx}/oa/news/editor/${news.id}">编辑</a></td>
 		</tr>
 		</c:forEach>
 	<tbody>
