@@ -24,7 +24,7 @@
 	<script src="${ctx }/js/common/plugins/blockui/jquery.blockUI.js" type="text/javascript"></script>
 	<script src="${ctx }/js/common/common.js" type="text/javascript"></script>
 	<script src="${ctx }/js/module/activiti/workflow.js" type="text/javascript"></script>
-	<script src="${ctx }/js/module/oa/order/order-form-handler.js" type="text/javascript"></script>
+	<script src="${ctx }/js/module/oa/news/news-detail-handler.js" type="text/javascript"></script>
 	<meta http-equiv="refresh" content="60">
 	
     <script type="text/javascript">	
@@ -61,8 +61,8 @@
 			<th>新闻标题</th>
 			<th>作者</th>
 			<th>类型</th>
+			<th>新闻ID</th>
 			<th>创建时间</th>
-			<th>查看</th>
 			<th>删除</th>
 			
 		</tr>
@@ -70,9 +70,10 @@
 	<tbody>
 		<c:forEach items="${newsList}" var="news">
 		 <tr>
-		    <td><a target="_blank" href="">${news.title}</a></td>
+		    <td><a class="handle" nid='${news.id}' title='${news.title}'} href="#" >${news.title}</a></td>
 			<td>${news.author}</td>
 			<td>${news.type }</td>
+			<td>${news.id }</td>
 			<td>${news.createTime }</td>
 		    <td> <a href="${ctx}/oa/news/delete/${news.id}">删除</a></td>
 			<%-- <td><fmt:formatDate value="${hpi.endTime }" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
