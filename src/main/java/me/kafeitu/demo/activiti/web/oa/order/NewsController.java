@@ -190,6 +190,44 @@ public class NewsController {
     }
     
     /**
+     * 得到新闻修改的页面
+     */
+    @RequestMapping(value = "edit/{id}")
+    public ModelAndView getNewsEditPage(@PathVariable("id") String newsId, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("/oa/news/newsEdit");
+        
+        User user = UserUtil.getUserFromSession(request.getSession());
+        if (user == null || StringUtils.isBlank(user.getId())) {
+        	return new ModelAndView("redirect:/login?timeout=true"); 
+        }
+        
+        logger.debug("Request for get news detail: {}", newsId);
+        
+        NewsInfo news = null;
+        String msg = null;
+        try {
+        	news = newsManager.getNews(Long.parseLong(newsId));
+        	if (news == null) {
+    			msg = "获取消息细节失败，消息不存在: " + newsId;
+    			logger.error(msg);
+        	}
+		} catch (Exception e) {
+			msg = "获取新闻细节异常: " + newsId;
+			logger.error(msg, e);
+		}
+        logger.debug("Get news detail: {}", news);
+        
+        if (msg != null) {
+			redirectAttributes.addFlashAttribute("error", msg);
+			return new ModelAndView("redirect:/oa/news/list"); 
+        }
+        
+        mav.addObject("newsInfo", news);
+        
+        return mav;
+    }
+    
+    /**
      * 得到新闻列表页面
      */
     @RequestMapping(value = "list")
@@ -286,10 +324,12 @@ public class NewsController {
             
             if ("content".equals(key)) {
             	content = entry.getValue()[0];
-            } else if ("newsId".equals(key)) {
+            } else if ("newsid".equals(key)) {
             	newsId = Long.parseLong(entry.getValue()[0]);
             } else if ("title".equals(key)) {
             	title = entry.getValue()[0];
+            } else if ("type".equals(key)) {
+            	type = entry.getValue()[0];
             }
 
         }
@@ -313,7 +353,7 @@ public class NewsController {
         		news.setType(type);
         	}
         	
-			newsManager.saveNews(news);
+			newsManager.updateNews(news);
 			msg = "新闻更新成功!";
 		} catch (Exception e) {
 			hasError = true;
@@ -325,9 +365,8 @@ public class NewsController {
         } else {
         	redirectAttributes.addFlashAttribute("message", msg);
         }
+        return "redirect:/oa/news/list";
         
-        
-    	return "redirect:/oa/news/list";
     }
     
 
