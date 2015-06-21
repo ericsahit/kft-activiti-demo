@@ -10,7 +10,7 @@ function newsdetail() {
 
 	// 当前节点的英文名称
 	var id = $(this).attr('nid');
-	var title = $(this).attr('title');
+	var title = $(this).attr('ntitle');
 	
    // alert(id);
 	$('#newsDetailTemplate').html('').dialog({
@@ -22,7 +22,7 @@ function newsdetail() {
 		//height: 700,
 		title: '[' + title + ']',
 		open: function() {
-			readFormFields.call(this, id);
+			readFormFields2.call(this, id);
 		},
 	});
 }
@@ -31,7 +31,7 @@ function newsdetail() {
 /**
  * 读取消息详细内容
  */
-function readFormFields(id) {
+function readFormFields2(id) {
 	var dialog = this;
 
    var url=ctx + '/oa/news/detail/' + id;
@@ -159,9 +159,9 @@ $(function() {
 						var ct = "<ol>";
 						$.each(data, function() {
 							ct += "<li>";
-							ct += "<span style='padding-left:5px' class='createtime' title='创建时间'>" + formatDate(this.createTime, "yyyy-MM-dd") + "</span>";
-							ct += "<span style='padding-left:5px' class='version' title='作者'>" + this.author + "</span>";
-							ct += "<a class='newsdetail' href='#' nid='" + this.id + "' title='" + this.title + "'>" + this.title + "</a>";
+							ct += "<span class='createtime' title='" + this.createTime + "'>" + formatDate(this.createTime, "yyyy-MM-dd") + "</span>";
+							ct += "<span style='padding-left:10px' class='version' title='作者'>" + this.author + "</span>";
+							ct += "<a style='padding-left:10px' class='newsdetail' href='#' nid='" + this.id + "' title='点击查看详情' ntitle='" + this.title + "'>" + this.title + "</a>";
 							//ct += "<span class='status' title='任务状态'>" + (this.status == 'claim' ? '未签收' : '') + "</span>";
 							ct += "</li>";
 						});
