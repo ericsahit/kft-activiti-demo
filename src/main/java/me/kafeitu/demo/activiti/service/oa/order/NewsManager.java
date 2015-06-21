@@ -38,6 +38,12 @@ public class NewsManager {
 		newsDao.save(entity);
 	}
 	
+	@Transactional(readOnly = false)
+	public void updateNews(NewsInfo entity) {
+		entity.setCreateTime(new Date());
+		newsDao.save(entity);
+	}
+	
 	@Transactional(readOnly = true)
 	public NewsInfo getNews(long newsId) {
 		return newsDao.findOne(newsId);
