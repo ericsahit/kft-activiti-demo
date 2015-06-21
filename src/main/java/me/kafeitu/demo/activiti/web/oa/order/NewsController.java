@@ -134,6 +134,7 @@ public class NewsController {
     }
     
     @RequestMapping(value = "detail/{id}")
+    @ResponseBody
     public String getNewsDetail(@PathVariable("id") String newsId, 
     		HttpServletRequest request) {
         User user = UserUtil.getUserFromSession(request.getSession());

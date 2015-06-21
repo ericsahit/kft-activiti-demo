@@ -21,8 +21,10 @@ function handle() {
 	$('#handleTemplate').html('').dialog({
 		modal: true,
 		width: 500,
-		//height: $.common.window.getClientHeight() / 2,
-		height: 500,
+	    width: document.documentElement.clientWidth * 0.8,
+        height: document.documentElement.clientHeight * 0.9,
+	//	height: $.common.window.getClientHeight() / 2,
+		//height: 700,
 		title: '[' + title + ']',
 		open: function() {
 			readFormFields.call(this, id);
@@ -41,13 +43,16 @@ function readFormFields(id) {
 	//$(dialog).html("<form class='dynamic-form' method='post'><table class='dynamic-form-table'></table></form>");
 	//var $form = $('.dynamic-form');
 
-   alert("--->1");
+ 
 	// 读取启动时的表单
-   alert(ctx+"/oa/news/detail/"+id);
-   $.get(ctx + '/oa/news/detail/' + id, function(datas) {
+  
+ ///  var url="http://localhost:8080/jbworkflow/oa/news/detail/"+id;
+   var url=ctx + '/oa/news/detail/' + id;
+   $.get(url, function(datas) {
 		//var trs = "";
-		alert("--->2");
-		alert("--->"+datas);
+		//alert("--->2");
+		//alert("--->"+datas);
+	   $(dialog).html(datas);
 		
 	});
 }

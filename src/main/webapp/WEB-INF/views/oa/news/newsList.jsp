@@ -25,7 +25,7 @@
 	<script src="${ctx }/js/common/common.js" type="text/javascript"></script>
 	<script src="${ctx }/js/module/activiti/workflow.js" type="text/javascript"></script>
 	<script src="${ctx }/js/module/oa/news/news-detail-handler.js" type="text/javascript"></script>
-	<meta http-equiv="refresh" content="60">
+	<%-- <meta http-equiv="refresh" content="60"> --%>
 	
     <script type="text/javascript">	
 	$(document).ready(function() {

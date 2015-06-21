@@ -104,19 +104,20 @@
 	<form:form id="inputForm" action="${ctx}/oa/news/savenews" method="post" class="form-horizontal">
 		<fieldset>
 			<legend><small>创建新闻</small></legend>
-			<table border="1">
+			<table border="1" >
 			<tr>
-				<td>标&nbsp;&nbsp;题：<input type="text" id="title" name="title" class="required"><span style="color:red">*</span></td>				 
+				<td >标&nbsp;&nbsp;题：<input type="text" id="title" name="title" style="width:300px;height:25px;" class="required"><span style="color:red">*</span></td>				 
 			</tr>
 			<tr>
-				 <script id="container" name="content" type="text/plain">请在此输入内容....</script>
+				 <script id="container" name="content" type="text/plain"></script>
                  <!-- 配置文件 -->
                   <script type="text/javascript" src="${ctx }/ueditor/ueditor.config.js"></script>
                 <!-- 编辑器源码文件 -->
                 <script type="text/javascript" src="${ctx }/ueditor/ueditor.all.js"></script>
                  <!-- 实例化编辑器 -->
                  <script type="text/javascript">
-                 var ue = UE.getEditor('container');
+                 var ue = UE.getEditor('container',{initialFrameHeight:350,initialFrameWidth:1000 });
+                 //ue.initialFrameHeight=500;
                 </script>
 			</tr>
 			<tr>
