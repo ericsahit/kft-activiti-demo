@@ -68,7 +68,6 @@ return false;
 
 <body>
 
-	<div class="container showgrid">
 	<c:if test="${not empty message}">
 		<div id="message" class="alert alert-success">${message}</div>
 		<!-- 自动隐藏提示信息 -->

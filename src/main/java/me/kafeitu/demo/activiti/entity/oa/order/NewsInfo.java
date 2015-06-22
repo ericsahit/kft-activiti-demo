@@ -66,6 +66,7 @@ public class NewsInfo extends IdEntity implements Serializable {
 		this.type = type;
 	}
 
+	@Column(columnDefinition = "TEXT")
 	public String getContent() {
 		return content;
 	}

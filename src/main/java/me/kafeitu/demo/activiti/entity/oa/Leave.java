@@ -39,6 +39,8 @@ public class Leave extends IdEntity implements Serializable {
     private Date applyTime;
     private String leaveType;
     private String reason;
+    
+    private String testtext;
 
     //-- 临时属性 --//
 
@@ -121,6 +123,16 @@ public class Leave extends IdEntity implements Serializable {
     public void setReason(String reason) {
         this.reason = reason;
     }
+    
+    @Column(columnDefinition = "TEXT")
+    public String getTesttext() {
+        return testtext;
+    }
+
+    public void setTesttext(String testtext) {
+        this.testtext = testtext;
+    }
+    
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "REALITY_START_TIME")

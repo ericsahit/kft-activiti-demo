@@ -171,14 +171,6 @@ $(function() {
 						$('.newsdetail').click(newsdetail);
 					}
 				}
-			}, {
-				title: '角色与用户',
-				content: {
-					type: 'text',
-					text: function() {
-						return $('.user').html();
-					}
-				}
 			},  {
                 title: 'APP客户端说明',
                 content: {
