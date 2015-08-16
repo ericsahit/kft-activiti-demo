@@ -4,13 +4,14 @@
     <wp7>1.4</wp7>
     <ios>1.5.5</ios>
     <android>
-      <versionCode>33</versionCode>
-      <versionName>2.0</versionName>
+      <versionCode>34</versionCode>
+      <versionName>2.1</versionName>
       <downloadUrl>http://jiaoba.duapp.com/update/jbworkflowApp.apk</downloadUrl>
-      <updateLog>2015-05-27 1.增加了部分订单不需要司机发货的步骤。2.客服只能操作自己发起的订单。</updateLog>
+      <updateLog>2015-08-16 增加了客户端查看新闻的功能。</updateLog>
+<!--       <updateLog>2015-08-16 增加了客户端查看新闻的功能。2015-05-27 1.增加了部分订单不需要司机发货的步骤。2.客服只能操作自己发起的订单。</updateLog> -->
 	  <coverUpdate>true</coverUpdate>
-      <coverStartDate>2015-05-27</coverStartDate>
-      <coverEndDate>2015-05-27</coverEndDate>
+      <coverStartDate>2015-08-16</coverStartDate>
+      <coverEndDate>2015-08-16</coverEndDate>
       <coverURL>orderworkflow:1:32</coverURL>
     </android>
   </update>

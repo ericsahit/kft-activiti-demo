@@ -136,10 +136,10 @@ public class NewsController {
     @ResponseBody
     public String getNewsDetail(@PathVariable("id") String newsId, 
     		HttpServletRequest request) {
-        User user = UserUtil.getUserFromSession(request.getSession());
-        if (user == null || StringUtils.isBlank(user.getId())) {
-        	return "请重新登录！";
-        }
+//        User user = UserUtil.getUserFromSession(request.getSession());
+//        if (user == null || StringUtils.isBlank(user.getId())) {
+//        	return "请重新登录！";
+//        }
         
         logger.debug("Request for get news detail: {}", newsId);
         
@@ -167,10 +167,10 @@ public class NewsController {
     public List<NewsInfo> getNewsList(HttpServletRequest request) {
         //ModelAndView mav = new ModelAndView("/oa/news/list");
         List<NewsInfo> newsList = new ArrayList<NewsInfo>();
-        User user = UserUtil.getUserFromSession(request.getSession());
-        if (user == null || StringUtils.isBlank(user.getId())) {
-        	return newsList;
-        }
+//        User user = UserUtil.getUserFromSession(request.getSession());
+//        if (user == null || StringUtils.isBlank(user.getId())) {
+//        	return newsList;
+//        }
         
         Iterable<NewsInfo> newsIterable = newsManager.getNewsList();
         
